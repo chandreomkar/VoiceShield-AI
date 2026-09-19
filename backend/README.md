@@ -1,6 +1,11 @@
-# VoiceShield India - Backend ML Service
+# VoiceShield India - Backend ML Service (FUTURE SCOPE / UNUSED IN DEMO)
 
-This backend service implements real-time audio deepfake classification using **Facebook Wav2Vec2** and **Spectrogram Dual-Head CNN (SpecNet)** paired with **NLP Context Threat Parsing**.
+> [!NOTE]
+> **HACKATHON STATUS: FUTURE SCOPE / REFERENCE ONLY**
+> The active VoiceShield India prototype runs **100% client-side in the browser** directly by opening `index.html` with zero external dependencies.
+> This `backend/` directory is an independent Python/PyTorch reference architecture for post-hackathon carrier-grade deployment. It is **NOT required or called** by the live browser prototype.
+
+This backend service provides an optional reference implementation for server-side deepfake classification using **Facebook Wav2Vec2** and **Spectrogram Dual-Head CNN (SpecNet)**.
 
 ## Architecture
 

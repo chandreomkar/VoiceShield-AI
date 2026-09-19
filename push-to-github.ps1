@@ -1,8 +1,8 @@
-﻿param(
+param(
   [string]$Token
 )
 
-$repoDir = "C:\Users\Arpita\.gemini\antigravity\scratch\voiceshield-india"
+$repoDir = $PSScriptRoot
 Set-Location $repoDir
 
 if ($Token) {

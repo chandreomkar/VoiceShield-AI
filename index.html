@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VoiceShield India | AI Voice Clone Scam Detection & Prevention System</title>
+  <title>VoiceShield India | AI Voice Clone Scam Detection & Prevention</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="theme-cyber">
-  <!-- Cyber Background Grid & Ambient Glows -->
+  <!-- Cyber Ambient Glows & Background Grid -->
   <div class="cyber-grid-bg"></div>
   <div class="radial-glow glow-1"></div>
   <div class="radial-glow glow-2"></div>
 
-  <!-- Top Navigation & System Status -->
+  <!-- Top Navigation & System Bar -->
   <header class="top-nav">
     <div class="nav-container">
       <div class="brand-section">
@@ -29,581 +29,549 @@
         <div class="brand-text">
           <div class="brand-title">
             <span class="highlight">VOICESHIELD</span> INDIA
-            <span class="badge-tag">HACKATHON v1.0</span>
+            <span class="badge-tag">CRAFTVERSE HACKATHON</span>
           </div>
-          <div class="brand-tagline">AI Voice Clone Detection & Anti-Extortion Shield</div>
+          <div class="brand-tagline">Detect the threat &bull; Verify the caller &bull; Prevent the loss</div>
         </div>
       </div>
 
       <div class="system-status-pills">
-        <div class="status-pill active">
+        <div class="status-pill active" title="Evaluation based on ASVspoof acoustic principles">
           <span class="status-dot green"></span>
-          <span class="label">ENGINE:</span>
-          <span class="val">Wav2Vec2 + ContextNet</span>
+          <span class="label">ACOUSTIC CORE:</span>
+          <span class="val">ASVspoof-Style Principles</span>
         </div>
         <div class="status-pill">
           <span class="label">HELPLINE:</span>
-          <a href="tel:1930" class="val highlight-phone">📞 1930 (MHA)</a>
+          <a href="tel:1930" class="val highlight-phone">📞 1930</a>
         </div>
-        <div class="status-pill">
-          <span class="label">PORTAL:</span>
-          <span class="val text-cyan">DoT CHAKSHU</span>
-        </div>
-        <button class="btn-quick-auto-demo" id="btn-quick-auto-demo" title="Run instant live demonstration of the full 7-step flow">
-          ⚡ 1-Click Auto Demo
+        <button class="btn-top-action" id="btn-open-family-circle" title="Manage pre-registered family contacts">
+          👨‍👩‍👧 Family Circle (<span id="top-family-count">3</span>)
+        </button>
+        <button class="btn-quick-auto-demo" id="btn-quick-auto-demo" title="Run instant live demonstration of the full 4-screen flow">
+          ⚡ 1-Click Demo
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Interactive 7-Step Pipeline Stepper (Clickable to Navigate) -->
-  <nav class="pipeline-stepper" aria-label="Detection Pipeline Stepper">
-    <div class="step-node active" id="node-step-1" data-target="step-sec-1">
+  <!-- 4-Screen Pipeline Stepper -->
+  <nav class="pipeline-stepper" aria-label="Detection Pipeline Navigation">
+    <div class="step-node active" id="nav-step-1" data-screen="screen-home">
       <span class="step-num">01</span>
       <span class="step-name">Audio Input</span>
     </div>
     <div class="step-connector"></div>
-    <div class="step-node" id="node-step-2" data-target="step-sec-2">
+    <div class="step-node" id="nav-step-2" data-screen="screen-analysis">
       <span class="step-num">02</span>
-      <span class="step-name">Voice Analysis</span>
+      <span class="step-name">Analysis</span>
     </div>
     <div class="step-connector"></div>
-    <div class="step-node" id="node-step-3" data-target="step-sec-3">
+    <div class="step-node" id="nav-step-3" data-screen="screen-result">
       <span class="step-num">03</span>
-      <span class="step-name">Scam Context NLP</span>
+      <span class="step-name">Risk Result & Reasons</span>
     </div>
     <div class="step-connector"></div>
-    <div class="step-node" id="node-step-4" data-target="step-sec-4">
+    <div class="step-node" id="nav-step-4" data-screen="screen-verification">
       <span class="step-num">04</span>
-      <span class="step-name">Risk Score & Reasons</span>
-    </div>
-    <div class="step-connector"></div>
-    <div class="step-node" id="node-step-5" data-target="step-sec-5">
-      <span class="step-num">05</span>
-      <span class="step-name">Multilingual Alert</span>
-    </div>
-    <div class="step-connector"></div>
-    <div class="step-node" id="node-step-6" data-target="step-sec-6">
-      <span class="step-num">06</span>
       <span class="step-name">Trusted Verification</span>
-    </div>
-    <div class="step-connector"></div>
-    <div class="step-node" id="node-step-7" data-target="step-sec-7">
-      <span class="step-num">07</span>
-      <span class="step-name">Safer Decision</span>
     </div>
   </nav>
 
-  <!-- Main Grid Layout -->
-  <main class="main-layout">
-    <!-- LEFT PANEL: STEP 1 - AUDIO INGESTION & CAPTURE -->
-    <section class="cyber-card input-hub" id="step-sec-1">
-      <div class="card-header">
-        <div class="card-title">
-          <span class="card-icon">🎙️</span> STEP 1: AUDIO INGESTION & CAPTURE
-        </div>
-        <span class="badge-tech">48kHz DUAL-CHANNEL</span>
-      </div>
+  <!-- Main View Container for 4 Screen States -->
+  <main class="main-content-area">
 
-      <!-- Primary Action: Big Prominent CTA Always Above the Fold -->
-      <div class="trigger-cta-box top-cta">
-        <button class="btn-cyber-primary pulse" id="btn-analyze">
-          <span class="btn-glitch-effect"></span>
-          <span class="btn-icon">⚡</span>
-          <span class="btn-text">RUN FULL VOICESHIELD SCAN</span>
-          <span class="btn-badge">AI v1.0</span>
-        </button>
-      </div>
-
-      <!-- Input Tabs -->
-      <div class="input-tabs">
-        <button class="tab-btn active" data-tab="tab-presets">⚡ Hackathon Scenarios</button>
-        <button class="tab-btn" data-tab="tab-upload">📁 Upload Voice Note</button>
-        <button class="tab-btn" data-tab="tab-record">🔴 Record Mic</button>
-      </div>
-
-      <!-- Tab 1: Hackathon Presets -->
-      <div class="tab-pane active" id="tab-presets">
-        <div class="presets-header-row">
-          <span class="tab-subtext">Click any realistic Indian fraud case to test:</span>
-        </div>
-        <div class="presets-grid compact" id="presets-list">
-          <!-- Populated by mock-scenarios.js -->
-        </div>
-      </div>
-
-      <!-- Tab 2: Upload Audio File -->
-      <div class="tab-pane" id="tab-upload">
-        <div class="lang-selector-row">
-          <span class="lang-selector-label">Audio Speech Language:</span>
-          <div class="lang-pills-wrap" id="upload-lang-pills">
-            <button class="pill-btn active" data-lang="hi">Hindi (हिंदी)</button>
-            <button class="pill-btn" data-lang="mr">Marathi (मराठी)</button>
-            <button class="pill-btn" data-lang="en">English</button>
+    <!-- ============================================================== -->
+    <!-- SCREEN 1: HOME / INPUT SCREEN -->
+    <!-- ============================================================== -->
+    <section class="app-screen active" id="screen-home">
+      <div class="screen-card">
+        <div class="screen-header">
+          <div class="screen-title-wrap">
+            <h1 class="screen-main-title">Check a Suspicious Voice</h1>
+            <p class="screen-subtitle">Upload an audio note or record suspicious speech to detect AI voice cloning before transferring money.</p>
+          </div>
+          <div class="future-scope-banner">
+            <span class="scope-dot"></span>
+            <span>Future Scope: Live VoIP / Carrier-Level Telecom Interception</span>
           </div>
         </div>
-        <div class="drop-zone" id="drop-zone">
-          <svg class="drop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
-          </svg>
-          <div class="drop-text">Drag & drop WhatsApp voice note or select audio</div>
-          <div class="drop-subtext">Supports WAV, MP3, M4A, WebM & OGG up to 25MB</div>
-          <label class="btn-secondary file-upload-label">
-            Browse Audio File
-            <input type="file" id="audio-file-input" accept=".wav,.mp3,.m4a,.webm,.ogg,audio/wav,audio/mp3,audio/mpeg,audio/m4a,audio/x-m4a,audio/webm,audio/ogg,audio/*" style="display: none;">
+
+        <!-- Privacy-First Consent Gate -->
+        <div class="privacy-consent-card">
+          <label class="privacy-checkbox-label">
+            <input type="checkbox" id="privacy-consent-chk" checked>
+            <span class="custom-checkbox"></span>
+            <span class="privacy-text">
+              <strong>🔒 Privacy-First Analysis:</strong> I consent to temporary local in-memory audio processing. Raw audio is processed ephemerally and never permanently stored.
+            </span>
           </label>
         </div>
-        <div id="selected-file-info" class="file-info hidden"></div>
-      </div>
 
-      <!-- Tab 3: Microphone Recording -->
-      <div class="tab-pane" id="tab-record">
-        <div class="lang-selector-row">
-          <span class="lang-selector-label">Speech-to-Text Language:</span>
-          <div class="lang-pills-wrap" id="mic-lang-pills">
-            <button class="pill-btn active" data-lang="hi-IN">Hindi (हिंदी)</button>
-            <button class="pill-btn" data-lang="mr-IN">Marathi (मराठी)</button>
-            <button class="pill-btn" data-lang="en-IN">English (India)</button>
+        <!-- Input Modes Tabs -->
+        <div class="input-tabs">
+          <button class="tab-btn active" data-tab="tab-presets">⚡ Hackathon Scenarios</button>
+          <button class="tab-btn" data-tab="tab-upload">📁 Upload Voice Note</button>
+          <button class="tab-btn" data-tab="tab-record">🔴 Record Mic</button>
+        </div>
+
+        <!-- Tab 1: Realistic Hackathon Scenarios -->
+        <div class="tab-pane active" id="tab-presets">
+          <div class="presets-intro">
+            <span>Select any calibrated Indian cyber fraud scenario to test:</span>
+          </div>
+          <div class="presets-grid" id="presets-list">
+            <!-- Dynamically populated by mock-scenarios.js -->
           </div>
         </div>
-        <div class="mic-recorder-box">
-          <div class="mic-visual" id="mic-visual">
-            <div class="mic-pulse-circle" id="mic-pulse-circle">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mic-svg">
-                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-                <line x1="12" y1="19" x2="12" y2="23"/>
-                <line x1="8" y1="23" x2="16" y2="23"/>
-              </svg>
+
+        <!-- Tab 2: Upload Audio File -->
+        <div class="tab-pane" id="tab-upload">
+          <div class="lang-selector-row">
+            <span class="lang-selector-label">Spoken Language:</span>
+            <div class="lang-pills-wrap" id="upload-lang-pills">
+              <button class="pill-btn active" data-lang="hi">Hindi (हिंदी)</button>
+              <button class="pill-btn" data-lang="mr">Marathi (मराठी)</button>
+              <button class="pill-btn" data-lang="en">English</button>
             </div>
           </div>
-          <div class="rec-timer" id="rec-timer">00:00</div>
-          <div class="rec-instructions">Test with your real voice to demonstrate authentic human baseline (&lt;15% risk)</div>
-          <button class="btn-rec" id="btn-toggle-rec">
-            <span class="rec-dot"></span> <span id="rec-btn-text">Start Recording</span>
-          </button>
-          <div class="mic-inline-error hidden" id="mic-inline-error">
-            ⚠️ Microphone access was denied or is unavailable. Please allow microphone permissions in your browser URL bar, or test using the "Upload Voice Note" or "Hackathon Scenarios" tab above.
+          <div class="drop-zone" id="drop-zone">
+            <svg class="drop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+            </svg>
+            <div class="drop-text">Drag & drop WhatsApp voice note or browse file</div>
+            <div class="drop-subtext">Supports MP3, WAV, M4A, OGG & WebM (Up to 25MB)</div>
+            <label class="btn-secondary file-upload-label">
+              Browse Audio File
+              <input type="file" id="audio-file-input" accept=".wav,.mp3,.m4a,.webm,.ogg,audio/*" style="display: none;">
+            </label>
           </div>
-        </div>
-      </div>
-
-      <!-- Real-Time Audio Canvas Visualizer & Audio Player -->
-      <div class="playback-bar-section">
-        <div class="section-label-row">
-          <span class="label">LIVE DUAL-CHANNEL AUDIO WAVEFORM</span>
-          <span class="badge-status" id="audio-state-tag">AUDIO READY</span>
+          <div id="selected-file-info" class="file-info hidden"></div>
         </div>
 
-        <canvas id="waveform-canvas" width="600" height="75"></canvas>
-
-        <div class="audio-controls-row">
-          <button class="btn-audio-play" id="btn-play-audio">
-            <span id="play-icon">▶</span> <span id="play-label">Play Audio</span>
-          </button>
-          <div class="audio-timeline">
-            <span id="time-current">00:00</span>
-            <div class="progress-bar-bg" id="audio-progress-bar">
-              <div class="progress-bar-fill" id="audio-progress-fill"></div>
+        <!-- Tab 3: Microphone Live Recording -->
+        <div class="tab-pane" id="tab-record">
+          <div class="lang-selector-row">
+            <span class="lang-selector-label">Spoken Language:</span>
+            <div class="lang-pills-wrap" id="mic-lang-pills">
+              <button class="pill-btn active" data-lang="hi-IN">Hindi (हिंदी)</button>
+              <button class="pill-btn" data-lang="mr-IN">Marathi (मराठी)</button>
+              <button class="pill-btn" data-lang="en-IN">English (India)</button>
             </div>
-            <span id="time-duration">00:11</span>
+          </div>
+          <div class="mic-recorder-box">
+            <div class="mic-visual" id="mic-visual">
+              <div class="mic-pulse-circle" id="mic-pulse-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mic-svg">
+                  <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                  <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                  <line x1="12" y1="19" x2="12" y2="23"/>
+                  <line x1="8" y1="23" x2="16" y2="23"/>
+                </svg>
+              </div>
+            </div>
+            <div class="rec-timer" id="rec-timer">00:00</div>
+            <div class="rec-instructions">Test with your real voice to demonstrate authentic human baseline (&lt;15% risk)</div>
+            <button class="btn-rec" id="btn-toggle-rec">
+              <span class="rec-dot"></span> <span id="rec-btn-text">Start Recording</span>
+            </button>
+            <div class="mic-inline-error hidden" id="mic-inline-error">
+              ⚠️ Microphone access unavailable or permission denied. Please allow microphone permissions or select a preset scenario.
+            </div>
           </div>
         </div>
-        <div class="audio-meta" id="audio-meta-label">
-          Scenario: Son Emergency Accident / UPI Extortion
+
+        <!-- Audio Player & Waveform Visualizer -->
+        <div class="playback-bar-section">
+          <div class="section-label-row">
+            <span class="label">LIVE DUAL-CHANNEL AUDIO WAVEFORM</span>
+            <span class="badge-status" id="audio-state-tag">AUDIO READY</span>
+          </div>
+          <canvas id="waveform-canvas" width="700" height="70"></canvas>
+          <div class="audio-controls-row">
+            <button class="btn-audio-play" id="btn-play-audio">
+              <span id="play-icon">▶</span> <span id="play-label">Play Audio</span>
+            </button>
+            <div class="audio-timeline">
+              <span id="time-current">00:00</span>
+              <div class="progress-bar-bg" id="audio-progress-bar">
+                <div class="progress-bar-fill" id="audio-progress-fill"></div>
+              </div>
+              <span id="time-duration">00:11</span>
+            </div>
+          </div>
+          <div class="audio-meta" id="audio-meta-label">
+            Selected: Son Emergency Accident / UPI Extortion
+          </div>
+        </div>
+
+        <!-- Primary Action Trigger -->
+        <div class="cta-action-wrap">
+          <button class="btn-cyber-primary pulse" id="btn-analyze">
+            <span class="btn-icon">⚡</span>
+            <span class="btn-text">RUN VOICESHIELD SCAN</span>
+          </button>
         </div>
       </div>
     </section>
 
-    <!-- RIGHT PANEL: COMPLETE FLOW (STEPS 2 THROUGH 7) -->
-    <section class="cyber-card results-hub" id="results-hub">
-      <!-- Loading Overlay Tracker -->
-      <div class="scanning-overlay hidden" id="scanning-overlay">
-        <div class="radar-spinner"></div>
-        <div class="scan-step-tracker">
-          <div class="scan-log-line active" id="log-step-1">▹ [1/4] Extracting Mel-Frequency Cepstral Coefficients (MFCC)...</div>
-          <div class="scan-log-line" id="log-step-2">▹ [2/4] Testing HiFi-GAN Vocoder Cutoff (>7.4 kHz loss filter)...</div>
-          <div class="scan-log-line" id="log-step-3">▹ [3/4] Parsing Hindi/English Threat Vectors (Urgency, UPI demands)...</div>
-          <div class="scan-log-line" id="log-step-4">▹ [4/4] Fusing Wav2Vec2 + NLP Composite Risk Matrix...</div>
+    <!-- ============================================================== -->
+    <!-- SCREEN 2: ANALYSIS SCREEN (SEQUENTIAL PROGRESSION) -->
+    <!-- ============================================================== -->
+    <section class="app-screen" id="screen-analysis">
+      <div class="screen-card analysis-card">
+        <div class="analysis-header">
+          <div class="radar-spinner-large"></div>
+          <h2 class="analysis-title">Forensic Audio Analysis in Progress</h2>
+          <p class="analysis-subtitle">Evaluating spectral characteristics, acoustic artifacts, and linguistic intent</p>
+        </div>
+
+        <!-- Master Progress Bar -->
+        <div class="analysis-progress-wrap">
+          <div class="analysis-progress-meta">
+            <span id="analysis-step-label">Initializing preprocessing...</span>
+            <span id="analysis-percent">0%</span>
+          </div>
+          <div class="analysis-bar-bg">
+            <div class="analysis-bar-fill" id="analysis-bar-fill" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <!-- Sequential Sub-Steps Checklist -->
+        <div class="analysis-steps-list">
+          <div class="analysis-step-item" id="analysis-substep-1">
+            <div class="step-status-icon">⏳</div>
+            <div class="step-info">
+              <div class="step-name">1. Audio Preprocessing</div>
+              <div class="step-desc">Noise suppression, voice activity segmentation, 16kHz mono normalization</div>
+            </div>
+            <span class="step-badge-state">Waiting</span>
+          </div>
+
+          <div class="analysis-step-item" id="analysis-substep-2">
+            <div class="step-status-icon">⏳</div>
+            <div class="step-info">
+              <div class="step-name">2. Voice Characteristics</div>
+              <div class="step-desc">Mel-spectrogram analysis, pitch contour & vocal jitter evaluation</div>
+            </div>
+            <span class="step-badge-state">Waiting</span>
+          </div>
+
+          <div class="analysis-step-item" id="analysis-substep-3">
+            <div class="step-status-icon">⏳</div>
+            <div class="step-info">
+              <div class="step-name">3. Synthetic Voice Patterns</div>
+              <div class="step-desc">Wav2Vec2 acoustic feature extraction & ASVspoof-style evaluation principles</div>
+            </div>
+            <span class="step-badge-state">Waiting</span>
+          </div>
+
+          <div class="analysis-step-item" id="analysis-substep-4">
+            <div class="step-status-icon">⏳</div>
+            <div class="step-info">
+              <div class="step-name">4. Conversation Context</div>
+              <div class="step-desc">Multilingual speech-to-text semantic parsing (Hindi / Marathi / English)</div>
+            </div>
+            <span class="step-badge-state">Waiting</span>
+          </div>
+
+          <div class="analysis-step-item" id="analysis-substep-5">
+            <div class="step-status-icon">⏳</div>
+            <div class="step-info">
+              <div class="step-name">5. Urgency & Payment Intent</div>
+              <div class="step-desc">Coercion tactics, UPI extortion, and panic isolation detection</div>
+            </div>
+            <span class="step-badge-state">Waiting</span>
+          </div>
         </div>
       </div>
+    </section>
 
-      <!-- Results Content Flow -->
-      <div class="results-content" id="results-content">
-        <!-- Top Status Bar: Quick Verdict Badge -->
-        <div class="card-header border-b verdict-header">
-          <div class="card-title">
-            <span class="card-icon">🛡️</span> PIPELINE ANALYSIS RESULTS
-          </div>
-          <div class="verdict-controls">
-            <div class="risk-badge-header" id="header-risk-badge">
-              <span class="pulse-indicator"></span>
-              <span id="header-risk-text">AWAITING INPUT</span>
-            </div>
-            <button class="btn-reset-top" id="btn-reset-demo-top" title="Reset all pipeline data">🔄 Reset</button>
-          </div>
-        </div>
+    <!-- ============================================================== -->
+    <!-- SCREEN 3: RISK RESULT & EXPLAINABILITY SCREEN (PRIORITY 1) -->
+    <!-- ============================================================== -->
+    <section class="app-screen" id="screen-result">
+      <div class="screen-card result-screen-card">
 
-        <!-- ============================================================== -->
-        <!-- STEP 2: VOICE AUTHENTICITY ANALYSIS (Wav2Vec2 / SpecNet) -->
-        <!-- ============================================================== -->
-        <div class="results-section flow-step-card" id="step-sec-2">
-          <div class="section-title-sm">
-            <div class="step-tag-col">
-              <span class="step-badge">STEP 02</span>
-              <span class="step-title-text">VOICE AUTHENTICITY ANALYSIS</span>
-            </div>
-            <span class="tech-chip">ACOUSTIC SPECTRAL SIGNALS</span>
-          </div>
-
-          <div class="step-desc-text">
-            Simulates acoustic feature extraction via Wav2Vec2 and SpecNet dual-head CNN to detect synthetic speech synthesis markers.
-          </div>
-
-          <!-- Synthetic Voice Prob Bar -->
-          <div class="factor-row major-factor">
-            <div class="factor-header">
-              <span class="factor-name">🤖 Synthetic Voice Probability (Wav2Vec2 Deepfake Match):</span>
-              <span class="factor-val text-red" id="val-synthetic-prob">0%</span>
-            </div>
-            <div class="factor-bar-bg">
-              <div class="factor-bar-fill fill-red" id="bar-synthetic-prob" style="width: 0%"></div>
-            </div>
-          </div>
-
-          <!-- Acoustic Telemetry Grid -->
-          <div class="metrics-grid">
-            <div class="metric-card">
-              <div class="metric-title">High-Freq Cutoff</div>
-              <div class="metric-value text-red" id="metric-cutoff">--</div>
-              <div class="metric-desc">Vocoder loss above 7.4 kHz typical in neural TTS models</div>
-            </div>
-            <div class="metric-card">
-              <div class="metric-title">Pitch Contour Flatness</div>
-              <div class="metric-value text-amber" id="metric-pitch">--</div>
-              <div class="metric-desc">Unnatural micro-tremor absence in speech prosody</div>
-            </div>
-            <div class="metric-card">
-              <div class="metric-title">Phoneme Transitions</div>
-              <div class="metric-value text-cyan" id="metric-phoneme">--</div>
-              <div class="metric-desc">Robotic frame stitching discontinuities detected</div>
-            </div>
-            <div class="metric-card">
-              <div class="metric-title">Vocal Jitter & Shimmer</div>
-              <div class="metric-value" id="metric-jitter">--</div>
-              <div class="metric-desc">Biological glottal pulse variation & organic breath</div>
+        <!-- 1. Large Unmissable Risk Badge -->
+        <div class="result-risk-badge-banner" id="result-risk-badge">
+          <div class="risk-badge-glow"></div>
+          <div class="risk-badge-content">
+            <span class="risk-badge-icon" id="result-badge-icon">🚨</span>
+            <div class="risk-badge-details">
+              <div class="risk-badge-title" id="result-badge-title">HIGH RISK 94/100</div>
+              <div class="risk-badge-sub" id="result-badge-sub">Critical Voice Clone Extortion Threat Detected</div>
             </div>
           </div>
         </div>
 
-        <!-- ============================================================== -->
-        <!-- STEP 3: SCAM CONTEXT ANALYSIS (NLP Threat & Intent Engine) -->
-        <!-- ============================================================== -->
-        <div class="results-section flow-step-card" id="step-sec-3">
+        <!-- 2. "Why was this flagged?" Plain-Language Breakdown -->
+        <div class="explainability-section">
           <div class="section-title-sm">
-            <div class="step-tag-col">
-              <span class="step-badge">STEP 03</span>
-              <span class="step-title-text">SCAM CONTEXT ANALYSIS</span>
-            </div>
-            <span class="tech-chip">HINDI/ENGLISH INTENT EXTRACTION</span>
-          </div>
-
-          <div class="step-desc-text">
-            Natural Language Processing parses transcript semantics for urgency cues, impersonation, money requests (UPI/GPay), and intimidation tactics.
-          </div>
-
-          <!-- Context Threat Bar -->
-          <div class="factor-row major-factor">
-            <div class="factor-header">
-              <span class="factor-name">⚠️ Scam Context & Coercion Threat Score (NLP):</span>
-              <span class="factor-val text-amber" id="val-context-threat">0%</span>
-            </div>
-            <div class="factor-bar-bg">
-              <div class="factor-bar-fill fill-amber" id="bar-context-threat" style="width: 0%"></div>
-            </div>
-          </div>
-
-          <!-- Live Transcript with Threat Highlights -->
-          <div class="transcript-box">
-            <!-- Source & Mode Banner -->
-            <div class="transcript-source-bar" id="transcript-source-bar">
-              <div class="source-info-left">
-                <span class="source-icon" id="transcript-source-icon">🛡️</span>
-                <span class="source-title" id="transcript-source-label">Source: Hackathon Scenario Demo</span>
-              </div>
-              <div class="source-info-right">
-                <span class="source-status-chip" id="transcript-mode-badge">Predefined Scenario</span>
-              </div>
-            </div>
-
-            <div class="transcript-header">
-              <span class="label">DETECTED SPEECH / TRANSCRIPT:</span>
-              <div class="transcript-header-actions">
-                <button class="btn-transcript-toggle" id="btn-toggle-edit-transcript" title="Enter or edit actual spoken words">
-                  ✏️ Edit Spoken Words
-                </button>
-                <span class="badge-lang" id="transcript-lang">HINGLISH / ENGLISH</span>
-              </div>
-            </div>
-            <div class="transcript-body" id="transcript-body">
-              Select a scenario or upload audio and click "RUN FULL VOICESHIELD SCAN" to generate forensic transcript.
-            </div>
-
-            <!-- Custom Transcript Edit Form -->
-            <div class="transcript-edit-wrap hidden" id="transcript-edit-wrap">
-              <textarea id="transcript-edit-input" class="transcript-textarea" placeholder="Type or paste the actual words spoken in your audio... (e.g. Papa, emergency bike accident, transfer 50000 on GPay right now)"></textarea>
-              <div class="edit-actions-row">
-                <button class="btn-cyber-primary btn-sm" id="btn-apply-transcript">⚡ Apply & Re-Analyze NLP</button>
-                <button class="btn-secondary btn-sm" id="btn-cancel-edit">Cancel</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Scam Context Analysis Breakdown (4 Key Dimensions) -->
-          <div class="scam-context-analysis-card">
-            <div class="scam-context-title">
-              <span>🛡️ SCAM CONTEXT ANALYSIS</span>
-            </div>
-            <div class="scam-factors-grid" id="scam-factors-grid">
-              <div class="scam-factor-item" id="item-factor-urgency">
-                <div class="factor-item-icon">⏱️</div>
-                <div class="factor-item-info">
-                  <span class="factor-item-name">Urgency Detected:</span>
-                  <span class="factor-item-val" id="val-factor-urgency">Awaiting Analysis</span>
-                </div>
-              </div>
-              <div class="scam-factor-item" id="item-factor-money">
-                <div class="factor-item-icon">💸</div>
-                <div class="factor-item-info">
-                  <span class="factor-item-name">Money Request:</span>
-                  <span class="factor-item-val" id="val-factor-money">Awaiting Analysis</span>
-                </div>
-              </div>
-              <div class="scam-factor-item" id="item-factor-impersonation">
-                <div class="factor-item-icon">🎭</div>
-                <div class="factor-item-info">
-                  <span class="factor-item-name">Impersonation:</span>
-                  <span class="factor-item-val" id="val-factor-impersonation">Awaiting Analysis</span>
-                </div>
-              </div>
-              <div class="scam-factor-item" id="item-factor-pressure">
-                <div class="factor-item-icon">⚖️</div>
-                <div class="factor-item-info">
-                  <span class="factor-item-name">Pressure Language:</span>
-                  <span class="factor-item-val" id="val-factor-pressure">Awaiting Analysis</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Threat Context Tags -->
-          <div class="context-tags-row" id="context-tags-container" style="display:none;"></div>
-        </div>
-
-        <!-- ============================================================== -->
-        <!-- STEP 4: COMPOSITE RISK SCORE & DETAILED REASONS -->
-        <!-- ============================================================== -->
-        <div class="results-section flow-step-card score-section" id="step-sec-4">
-          <div class="section-title-sm">
-            <div class="step-tag-col">
-              <span class="step-badge">STEP 04</span>
-              <span class="step-title-text">COMPOSITE RISK SCORE & FORENSIC REASONS</span>
-            </div>
+            <span class="title-icon">🔍</span>
+            <span class="title-text">WHY WAS THIS FLAGGED?</span>
             <span class="tech-chip">EXPLAINABLE AI (XAI)</span>
           </div>
-
-          <div class="step-desc-text">
-            Multi-factor risk computation: <code>Risk = (0.55 × Voice Anomaly) + (0.45 × Context Threat)</code>.
-          </div>
-
-          <div class="gauge-container">
-            <div class="radial-score-wrapper">
-              <svg class="score-gauge-svg" viewBox="0 0 160 160">
-                <circle class="gauge-bg" cx="80" cy="80" r="68" />
-                <circle class="gauge-bar" id="gauge-bar-fill" cx="80" cy="80" r="68" />
-              </svg>
-              <div class="score-display">
-                <span class="score-num" id="risk-score-val">0</span>
-                <span class="score-percent">%</span>
-                <div class="score-classification" id="risk-classification">AWAITING INPUT</div>
-              </div>
-            </div>
-
-            <div class="score-summary-details">
-              <div class="score-equation-box">
-                <div class="eq-title">Calibrated Mathematical Risk Engine</div>
-                <div class="eq-row">
-                  <span>Voice Clone Signal (55%):</span>
-                  <strong class="text-red" id="summary-voice-weight">0%</strong>
-                </div>
-                <div class="eq-row">
-                  <span>Scam Intent Signal (45%):</span>
-                  <strong class="text-amber" id="summary-context-weight">0%</strong>
-                </div>
-                <div class="eq-row total">
-                  <span>Final Threat Verdict:</span>
-                  <strong id="summary-final-verdict">Awaiting Scan</strong>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Explainable AI Reasons Breakdown -->
-          <div class="reasons-heading-row">
-            <span class="label">ITEMIZED REASONS FOR RISK VERDICT:</span>
-          </div>
-          <div class="reasons-list" id="reasons-list">
-            <div class="reason-placeholder">Click "RUN FULL VOICESHIELD SCAN" to populate explainable AI reason cards.</div>
+          <p class="section-desc">Causal forensic factors identified by acoustic and conversational threat engines:</p>
+          <div class="reasons-list" id="result-reasons-list">
+            <!-- Dynamically rendered reason cards -->
           </div>
         </div>
 
-        <!-- ============================================================== -->
-        <!-- STEP 5: MULTILINGUAL CITIZEN ALERT & SPEECH SYNTHESIS -->
-        <!-- ============================================================== -->
-        <div class="results-section flow-step-card warning-center" id="step-sec-5">
+        <!-- 3. 3-Factor Breakdown Table / Grid -->
+        <div class="factors-breakdown-section">
           <div class="section-title-sm">
-            <div class="step-tag-col">
-              <span class="step-badge">STEP 05</span>
-              <span class="step-title-text">MULTILINGUAL CITIZEN ALERT</span>
-            </div>
-            <div class="lang-switch-tabs">
-              <button class="lang-btn active" data-lang="en">English</button>
-              <button class="lang-btn" data-lang="hi">हिंदी (Hindi)</button>
-              <button class="lang-btn" data-lang="mr">मराठी (Marathi)</button>
-            </div>
+            <span class="title-icon">📊</span>
+            <span class="title-text">MULTI-FACTOR THREAT MATRIX</span>
           </div>
-
-          <div class="step-desc-text">
-            Delivers instant localized warning copy and auditory speech synthesis for accessible citizen protection across India.
-          </div>
-
-          <div class="warning-alert-card" id="warning-alert-card">
-            <div class="warning-icon-col" id="warning-icon-col">🛡️</div>
-            <div class="warning-content-col">
-              <div class="warning-headline" id="warning-headline">Awaiting Audio Scan</div>
-              <div class="warning-message" id="warning-message">
-                Select an audio sample and trigger VoiceShield to display localized threat advisories and safety protocol.
+          <div class="factors-grid-3col">
+            <!-- Factor 1: Voice Authenticity -->
+            <div class="factor-card" id="card-factor-voice">
+              <div class="factor-card-header">
+                <span class="factor-card-title">🎙️ Voice Authenticity</span>
+                <span class="concern-pill pill-critical" id="concern-factor-voice">Critical</span>
               </div>
-              <div class="warning-audio-row">
-                <button class="btn-tts" id="btn-speak-warning">
-                  🔊 Speak Local Alert (<span id="current-tts-lang">English</span>)
-                </button>
-                <div class="tts-live-bubble hidden" id="tts-live-bubble">
-                  <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
-                  <span id="tts-live-text">Reading alert...</span>
-                </div>
+              <div class="factor-score-row">
+                <span class="factor-score-num" id="score-factor-voice">96%</span>
+                <span class="factor-score-label">Synthetic Match</span>
+              </div>
+              <div class="factor-card-desc" id="desc-factor-voice">
+                High-frequency vocoder cutoff (>7.4 kHz) and artificial pitch contour flatness detected.
+              </div>
+            </div>
+
+            <!-- Factor 2: Scam Context -->
+            <div class="factor-card" id="card-factor-context">
+              <div class="factor-card-header">
+                <span class="factor-card-title">🎭 Scam Context</span>
+                <span class="concern-pill pill-critical" id="concern-factor-context">Critical</span>
+              </div>
+              <div class="factor-score-row">
+                <span class="factor-score-num" id="score-factor-context">91%</span>
+                <span class="factor-score-label">Coercion Threat</span>
+              </div>
+              <div class="factor-card-desc" id="desc-factor-context">
+                Family impersonation, accident emergency claim, and fabricated police custody threat.
+              </div>
+            </div>
+
+            <!-- Factor 3: Payment Urgency -->
+            <div class="factor-card" id="card-factor-payment">
+              <div class="factor-card-header">
+                <span class="factor-card-title">💸 Payment Urgency</span>
+                <span class="concern-pill pill-critical" id="concern-factor-payment">Critical</span>
+              </div>
+              <div class="factor-score-row">
+                <span class="factor-score-num" id="score-factor-payment">95%</span>
+                <span class="factor-score-label">Extortion Intent</span>
+              </div>
+              <div class="factor-card-desc" id="desc-factor-payment">
+                Immediate demand for ₹50,000 via UPI (Google Pay) paired with victim secrecy coercion.
               </div>
             </div>
           </div>
         </div>
 
-        <!-- ============================================================== -->
-        <!-- STEP 6: TRUSTED CONTACT VERIFICATION (High Risk Protocol) -->
-        <!-- ============================================================== -->
-        <div class="results-section flow-step-card trusted-contact-section" id="step-sec-6">
-          <div class="section-title-sm">
-            <div class="step-tag-col">
-              <span class="step-badge">STEP 06</span>
-              <span class="step-title-text">TRUSTED CONTACT VERIFICATION</span>
+        <!-- 4. Recommended Action Box in Plain Language -->
+        <div class="recommended-action-box" id="result-action-box">
+          <div class="action-box-icon">⚠️</div>
+          <div class="action-box-content">
+            <div class="action-box-title">RECOMMENDED ACTION</div>
+            <div class="action-box-text" id="result-action-text">
+              Do not send money until verification is complete. Initiate secondary out-of-band verification with your registered family contact.
             </div>
-            <span class="badge-high-risk" id="badge-high-risk-tag">SAFE-CHECK PROTOCOL</span>
           </div>
+        </div>
 
-          <div class="step-desc-text">
-            Essential for high-risk impersonation calls: dispatches an isolated out-of-band challenge via WhatsApp/SMS to verify the family member's actual safety.
+        <!-- 5. Multilingual Alert & Safe TTS (Priority 4) -->
+        <div class="multilingual-card">
+          <div class="multi-header">
+            <span class="multi-title">🌐 Localized Citizen Advisory</span>
+            <div class="lang-switch-pills" id="result-lang-pills">
+              <button class="pill-btn active" data-lang="en">English</button>
+              <button class="pill-btn" data-lang="hi">हिंदी (Hindi)</button>
+              <button class="pill-btn" data-lang="mr">मराठी (Marathi)</button>
+            </div>
           </div>
-
-          <div class="trusted-contact-card">
-            <div class="contact-info-block">
-              <div class="contact-avatar">👨‍🎓</div>
-              <div class="contact-meta">
-                <div class="contact-name" id="trusted-contact-name">Rahul Sharma (Son)</div>
-                <div class="contact-sub" id="trusted-contact-phone">+91 98765 43210 &bull; Pre-registered Safe Contact</div>
-              </div>
-              <div class="contact-verification-status" id="contact-status-chip">
-                <span class="status-dot green"></span> Ready for Safe-Check
-              </div>
+          <div class="multi-content">
+            <div class="multi-headline" id="warning-headline">CRITICAL DANGER: HIGH-CONFIDENCE VOICE CLONE DETECTED</div>
+            <div class="multi-message" id="warning-message">
+              This audio note is synthetically generated using AI voice cloning. The caller is impersonating your son to extort money via UPI. DO NOT send funds. Initiate secondary verification immediately.
             </div>
-
-            <div class="safe-challenge-box">
-              <div class="challenge-label">Out-of-Band Family Challenge:</div>
-              <div class="challenge-text">
-                The incoming caller claims to be your son in urgent distress. Never transfer funds without authenticating through this secondary channel.
-              </div>
-              <div class="safe-word-prompt">
-                <span>Preset Family Safe-Word Question:</span>
-                <strong id="trusted-safe-word">"What was the name of our first pet adopted in 2021?"</strong>
-              </div>
-            </div>
-
-            <div class="contact-actions-row">
-              <button class="btn-verify-ping pulse" id="btn-ping-contact">
-                📲 Send Instant WhatsApp / SMS Verification Ping
+            <div class="multi-tts-row">
+              <button class="btn-tts" id="btn-speak-warning">
+                🔊 Read Local Alert (<span id="current-tts-lang">English</span>)
               </button>
-              <button class="btn-verify-call" id="btn-call-contact">
-                📞 Call Direct Cellular (Bypass App)
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- ============================================================== -->
-        <!-- STEP 7: SAFER DECISION & INCIDENT RESPONSE -->
-        <!-- ============================================================== -->
-        <div class="results-section flow-step-card decision-section" id="step-sec-7">
-          <div class="section-title-sm">
-            <div class="step-tag-col">
-              <span class="step-badge">STEP 07</span>
-              <span class="step-title-text">SAFER DECISION & INCIDENT RESPONSE</span>
-            </div>
-            <span class="tech-chip">INDIAN CYBER CRIME FRAMEWORK</span>
-          </div>
-
-          <div class="step-desc-text">
-            Empowers citizens with immediate counter-measures compliant with Ministry of Home Affairs (MHA) and DoT regulations.
-          </div>
-
-          <div class="decision-recommendation-box" id="decision-recommendation-box">
-            <div class="rec-icon" id="rec-icon">🛡️</div>
-            <div class="rec-text-wrap">
-              <div class="rec-title" id="rec-title">Awaiting Analysis</div>
-              <div class="rec-desc" id="rec-desc">
-                VoiceShield will provide automated safety directives based on synthetic probability and threat severity.
+              <div class="tts-live-bubble hidden" id="tts-live-bubble">
+                <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+                <span id="tts-live-text">Reading alert...</span>
               </div>
             </div>
           </div>
+        </div>
 
-          <div class="action-buttons-grid">
-            <button class="action-btn btn-danger" id="btn-block-caller">
-              <span class="act-icon">🚫</span>
-              <span class="act-title">Block & Blacklist Caller</span>
-              <span class="act-sub">Simulate Carrier Level Rejection</span>
-            </button>
-
-            <button class="action-btn btn-warning" id="btn-report-chakshu">
-              <span class="act-icon">🇮🇳</span>
-              <span class="act-title">Report to Chakshu & 1930</span>
-              <span class="act-sub">Auto-generate DoT Fraud Dossier</span>
-            </button>
-
-            <button class="action-btn btn-primary" id="btn-export-audit">
-              <span class="act-icon">📄</span>
-              <span class="act-title">Export Forensic Dossier</span>
-              <span class="act-sub">Cryptographic JSON / Evidence</span>
-            </button>
-
-            <button class="action-btn btn-info" id="btn-reset-demo">
-              <span class="act-icon">🔄</span>
-              <span class="act-title">Reset Demo</span>
-              <span class="act-sub">Test Another Audio Case</span>
-            </button>
+        <!-- Spoken Words / Transcript Preview -->
+        <div class="transcript-box">
+          <div class="transcript-header">
+            <span class="label">DETECTED SPEECH TRANSCRIPT:</span>
+            <span class="badge-lang" id="transcript-lang">HINDI / HINGLISH</span>
+          </div>
+          <div class="transcript-body" id="transcript-body">
+            <!-- Populated dynamically -->
           </div>
         </div>
+
+        <!-- Human-in-the-Loop Action Buttons -->
+        <div class="result-action-buttons">
+          <button class="action-btn btn-danger-primary" id="btn-go-verify">
+            <span class="act-icon">📲</span>
+            <div class="act-text-group">
+              <span class="act-main">Verify via Trusted Contact</span>
+              <span class="act-sub">Challenge caller via out-of-band family channel (Screen 04)</span>
+            </div>
+          </button>
+          <button class="action-btn btn-secondary" id="btn-dismiss-result">
+            <span class="act-icon">✅</span>
+            <div class="act-text-group">
+              <span class="act-main">Dismiss / False Alarm</span>
+              <span class="act-sub">Human decision: mark call as safe</span>
+            </div>
+          </button>
+          <button class="action-btn btn-warning" id="btn-report-result">
+            <span class="act-icon">🇮🇳</span>
+            <div class="act-text-group">
+              <span class="act-main">Report to 1930 / Chakshu</span>
+              <span class="act-sub">Cybercrime helpline & DoT fraud dossier</span>
+            </div>
+          </button>
+          <button class="action-btn btn-info" id="btn-rescan">
+            <span class="act-icon">🔄</span>
+            <div class="act-text-group">
+              <span class="act-main">Scan Another Audio</span>
+              <span class="act-sub">Return to input screen</span>
+            </div>
+          </button>
+        </div>
+
       </div>
     </section>
+
+    <!-- ============================================================== -->
+    <!-- SCREEN 4: TRUSTED CONTACT VERIFICATION (PRIORITY 2) -->
+    <!-- ============================================================== -->
+    <section class="app-screen" id="screen-verification">
+      <div class="screen-card verification-screen-card">
+
+        <!-- Top Status Banner: Payment Paused Notice -->
+        <div class="tc-status-badge pending" id="tc-status-badge">
+          <span class="pulse-dot amber"></span>
+          <span>ACTION / PAYMENT PAUSED PENDING VERIFICATION</span>
+        </div>
+
+        <div class="tc-status-alert-box alert-pending" id="tc-status-alert-box">
+          <div class="alert-icon">⏸️</div>
+          <div class="alert-text">
+            <strong>Payment & Action on Hold:</strong> VoiceShield advises pausing all UPI transfers and credential disclosures until the trusted contact responds through this isolated secondary channel.
+          </div>
+        </div>
+
+        <div class="verification-grid">
+          <!-- Left Column: Pre-Registered Contact Card & Request Details -->
+          <div class="verification-left-col">
+            <!-- Selected Contact Card -->
+            <div class="tc-contact-card">
+              <div class="tc-card-top">
+                <div class="tc-avatar" id="tc-contact-avatar">👨‍🎓</div>
+                <div class="tc-meta">
+                  <div class="tc-name" id="tc-contact-name">Rahul Sharma</div>
+                  <div class="tc-relation" id="tc-contact-relation">Son (Primary Trusted Contact)</div>
+                  <div class="tc-phone" id="tc-contact-phone">+91 98765 43210</div>
+                </div>
+                <button class="btn-switch-contact" id="btn-switch-contact" title="Change contact in Family Circle">
+                  Switch
+                </button>
+              </div>
+            </div>
+
+            <!-- Request Details Dossier -->
+            <div class="tc-request-dossier">
+              <div class="tc-dossier-title">VERIFICATION REQUEST DOSSIER</div>
+              <div class="tc-dossier-row">
+                <span class="tc-detail-label">Reason for Flag:</span>
+                <span class="tc-detail-val" id="tc-request-reason">AI Voice Clone impersonation demanding ₹50,000</span>
+              </div>
+              <div class="tc-dossier-row">
+                <span class="tc-detail-label">Assessed Risk:</span>
+                <span class="tc-detail-val text-red" id="tc-request-risk">HIGH RISK (94/100)</span>
+              </div>
+              <div class="tc-dossier-row">
+                <span class="tc-detail-label">Language Detected:</span>
+                <span class="tc-detail-val" id="tc-request-lang">Hindi / Hinglish</span>
+              </div>
+              <div class="tc-dossier-row">
+                <span class="tc-detail-label">Required Action:</span>
+                <span class="tc-detail-val text-cyan" id="tc-request-action">Out-of-band secondary verification (SMS/WhatsApp)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Simulated Handset (What Contact Sees) -->
+          <div class="verification-right-col">
+            <div class="tc-simulation-box" id="tc-simulation-box">
+              <div class="sim-phone-header">
+                <span class="sim-phone-title">📱 What Trusted Contact Sees on Their Phone</span>
+                <span class="sim-phone-badge">Live Interactive Simulation</span>
+              </div>
+
+              <div class="sim-phone-screen">
+                <div class="sim-msg-bubble">
+                  <div id="tc-simulated-msg-text">
+                    <strong>🛡️ VoiceShield Emergency Verification Alert</strong><br>
+                    Dad's phone received a high-urgency voice note claiming you are in an emergency/accident and demanding ₹50,000 via UPI.<br>
+                    <span style="color:#f59e0b;font-size:11.5px;display:inline-block;margin-top:4px;">
+                      ⚠️ Did you make this call or request money?
+                    </span>
+                  </div>
+                </div>
+
+                <div class="sim-actions-prompt">
+                  <span>Contact selects on their screen:</span>
+                </div>
+
+                <div class="sim-buttons-row">
+                  <button class="btn-sim-action btn-sim-genuine" id="btn-sim-genuine">
+                    <span class="sim-btn-icon">✓</span>
+                    <span class="sim-btn-text">Confirm Genuine</span>
+                  </button>
+                  <button class="btn-sim-action btn-sim-scam" id="btn-sim-scam">
+                    <span class="sim-btn-icon">🚨</span>
+                    <span class="sim-btn-text">Flag as Scam</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Human Decision Control Buttons -->
+        <div class="verification-control-buttons">
+          <button class="btn-secondary" id="btn-call-contact-direct">
+            📞 Call Trusted Contact Direct
+          </button>
+          <button class="btn-secondary" id="btn-cancel-verification">
+            ❌ Cancel Verification Request
+          </button>
+          <button class="btn-cyber-primary" id="btn-verification-to-home">
+            🏠 Back to Home
+          </button>
+        </div>
+
+      </div>
+    </section>
+
   </main>
 
-  <!-- Bottom Indian Cyber Fraud Statistics Bar -->
+  <!-- Bottom Cyber Stats & Footer -->
   <footer class="cyber-footer">
     <div class="footer-stats-bar">
       <div class="footer-stat">
@@ -615,51 +583,72 @@
         <span class="f-label">Surge in Voice Clone Kidnap Extortions</span>
       </div>
       <div class="footer-stat">
-        <span class="f-num">1.1s</span>
-        <span class="f-label">Simulated Wav2Vec2 Inference Latency</span>
-      </div>
-      <div class="footer-stat">
         <span class="f-num">3 Languages</span>
         <span class="f-label">English &bull; हिंदी &bull; मराठी Supported</span>
       </div>
+      <div class="footer-stat">
+        <span class="f-num">Zero-Dep</span>
+        <span class="f-label">Browser-Based Forensic Architecture</span>
+      </div>
     </div>
     <div class="footer-copy">
-      VoiceShield India Prototype &bull; Indian National Cyber Defense Hackathon &bull; Modular Wav2Vec2 & FastAPI Architecture
+      VoiceShield India &bull; National Cyber Defense Prototype (CraftVerse Hackathon) &bull; Acoustic & NLP Extortion Defense
     </div>
   </footer>
 
-  <!-- Modal 1: Trusted Contact Verification Interactive Simulation -->
-  <div class="modal-backdrop hidden" id="contact-modal">
+  <!-- ============================================================== -->
+  <!-- MODAL: FAMILY CIRCLE MANAGEMENT (PRIORITY 3) -->
+  <!-- ============================================================== -->
+  <div class="modal-backdrop hidden" id="family-circle-modal">
     <div class="modal-dialog">
       <div class="modal-header">
         <div class="modal-title">
-          <span>📲 Out-of-Band Secondary Channel (WhatsApp / SMS Simulation)</span>
+          <span>👨‍👩‍👧 Family Circle — Pre-Registered Trusted Contacts</span>
         </div>
-        <button class="btn-close-modal" id="btn-close-contact-modal">&times;</button>
+        <button class="btn-close-modal" id="btn-close-family-modal">&times;</button>
       </div>
       <div class="modal-body">
-        <div class="chat-simulation-container">
-          <div class="chat-recipient-bar">
-            <div class="avatar-sm">👨‍🎓</div>
-            <div class="chat-recip-info">
-              <div class="chat-name" id="modal-chat-name">Rahul Sharma (Son)</div>
-              <div class="chat-status"><span class="status-dot green"></span> Active Now &bull; Verified SIM (+91 98765 43210)</div>
-            </div>
-          </div>
+        <p class="modal-intro-text">
+          During high-risk calls, VoiceShield sends out-of-band verification challenges to your primary trusted contact.
+        </p>
 
-          <div class="chat-messages-area" id="chat-messages">
-            <!-- Simulated message exchange -->
+        <!-- Contacts List Container -->
+        <div class="family-contacts-list" id="family-contacts-list">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <!-- Add Contact Form -->
+        <div class="add-contact-card">
+          <div class="add-card-title">➕ Add New Family Contact</div>
+          <div class="add-form-grid">
+            <input type="text" id="add-contact-name" class="input-field" placeholder="Full Name (e.g. Rahul Sharma)">
+            <select id="add-contact-relation" class="input-field">
+              <option value="Son">Son</option>
+              <option value="Daughter">Daughter</option>
+              <option value="Spouse">Spouse</option>
+              <option value="Parent">Parent</option>
+              <option value="Brother">Brother</option>
+              <option value="Sister">Sister</option>
+              <option value="Legal Advisor">Legal Advisor</option>
+              <option value="Other">Other</option>
+            </select>
+            <input type="tel" id="add-contact-phone" class="input-field" placeholder="Phone Number (e.g. +91 98765 43210)">
           </div>
+          <button class="btn-cyber-primary btn-sm" id="btn-save-contact">
+            Add to Family Circle
+          </button>
         </div>
       </div>
       <div class="modal-footer">
-        <div class="safe-note">Secondary verification eliminates 99.4% of family impersonation scams without paying any ransom.</div>
-        <button class="btn-secondary" id="btn-dismiss-chat">Close Verification</button>
+        <button class="btn-secondary" id="btn-reset-contacts">Reset to Defaults</button>
+        <button class="btn-secondary" id="btn-done-contacts">Done</button>
       </div>
     </div>
   </div>
 
-  <!-- Modal 2: Chakshu / 1930 Cyber Helpline Report Dossier -->
+  <!-- ============================================================== -->
+  <!-- MODAL: REPORT TO 1930 / CHAKSHU -->
+  <!-- ============================================================== -->
   <div class="modal-backdrop hidden" id="report-modal">
     <div class="modal-dialog wide">
       <div class="modal-header">
@@ -671,7 +660,7 @@
       <div class="modal-body">
         <div class="report-pre-fill">
           <div class="report-alert-banner">
-            ✅ Dossier automatically generated with cryptographic audio hash and NLP threat vectors.
+            ✅ Dossier automatically generated with acoustic anomaly markers and NLP extortion vectors.
           </div>
           <div class="report-form-preview" id="report-form-preview">
             <!-- Populated dynamically -->
@@ -679,8 +668,9 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn-cyber-primary" id="btn-submit-mock-report">Submit Report to 1930 Portal</button>
-        <button class="btn-secondary" id="btn-download-json">Download Forensic JSON Dossier</button>
+        <a href="tel:1930" class="btn-cyber-primary">📞 Call 1930 Helpline Now</a>
+        <a href="https://sancharsaathi.gov.in" target="_blank" rel="noopener noreferrer" class="btn-secondary">Visit Chakshu Portal</a>
+        <button class="btn-secondary" id="btn-close-report-btn">Close</button>
       </div>
     </div>
   </div>
@@ -688,12 +678,13 @@
   <!-- Toast Notification Container -->
   <div class="toast-container" id="toast-container"></div>
 
-  <!-- JavaScript Modules -->
+  <!-- JavaScript Modules in Dependency Order -->
   <script src="js/mock-scenarios.js"></script>
   <script src="js/audio-analyzer.js"></script>
   <script src="js/ai-engine.js"></script>
   <script src="js/scam-context-engine.js"></script>
   <script src="js/multilingual.js"></script>
+  <script src="js/family-circle.js"></script>
   <script src="js/trusted-contact.js"></script>
   <script src="js/app.js"></script>
 </body>

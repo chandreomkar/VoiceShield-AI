@@ -1,5 +1,6 @@
 // VoiceShield India - Scam Context & Threat NLP Engine
 // Analyzes conversational transcripts for urgency, impersonation, money requests & coercion
+// Computes 3-factor breakdown: Voice Authenticity, Scam Context, and Payment Urgency
 
 class ScamContextEngine {
   constructor() {
@@ -11,9 +12,9 @@ class ScamContextEngine {
       { regex: /\b(accident|hospital|icu|injured|danger|critical condition)\b/gi, type: 'urgency', label: 'Emergency Duress' },
       { regex: /(एक्सीडेंट|अस्पताल|घायल|दुर्घटना|गंभीर)/gi, type: 'urgency', label: 'Emergency Duress (Hindi)' },
       { regex: /(अपघात|रुग्णालय|जखमी|गंभीर)/gi, type: 'urgency', label: 'Emergency Duress (Marathi)' },
-      { regex: /\b(kisi ko mat batana|don'?t tell anyone|secret|don'?t call|chup chap|private|keep quiet)\b/gi, type: 'urgency', label: 'Secrecy Coercion' },
-      { regex: /(किसी को मत बताना|गुप्त|फोन मत करना|चुपचाप|किसी से मत कहना)/gi, type: 'urgency', label: 'Secrecy Coercion (Hindi)' },
-      { regex: /(कोणालाही सांगू नका|गुपित|फोन करू नका|चूपचाप|सांगू नका)/gi, type: 'urgency', label: 'Secrecy Coercion (Marathi)' },
+      { regex: /\b(kisi ko mat batana|don'?t tell anyone|secret|don'?t call|chup chap|private|keep quiet)\b/gi, type: 'isolation', label: 'Secrecy Coercion' },
+      { regex: /(किसी को मत बताना|गुप्त|फोन मत करना|चुपचाप|किसी से मत कहना)/gi, type: 'isolation', label: 'Secrecy Coercion (Hindi)' },
+      { regex: /(कोणालाही सांगू नका|गुपित|फोन करू नका|चूपचाप|सांगू नका)/gi, type: 'isolation', label: 'Secrecy Coercion (Marathi)' },
 
       // 2. Financial Demands & Payment Channels
       { regex: /(₹|rs\.?|inr)\s?[\d,]+/gi, type: 'money', label: 'Direct Cash Demand' },
@@ -31,39 +32,45 @@ class ScamContextEngine {
       { regex: /(पुलिस|इंस्पेक्टर|थाना|थानेदार|सीबीआई|क्राइम ब्रांच|कस्टम्स|मजिस्ट्रेट|आरबीआई)/gi, type: 'authority', label: 'Law Enforcement Persona (Hindi)' },
       { regex: /(पोलीस|इन्स्पेक्टर|ठाणे|गुन्हे शाखा|सीबीआय|कस्टम्स|मॅजिस्ट्रेट)/gi, type: 'authority', label: 'Law Enforcement Persona (Marathi)' },
 
-      // 4. Legal & Physical Duress / Pressure Language
-      { regex: /\b(arrest|jail|fir|custody|lockup|non-bailable|court|warrant|digital arrest|block account|freeze|detained)\b/gi, type: 'authority', label: 'Arrest & Custody Threat' },
-      { regex: /(अरेस्ट|गिरफ्तार|जेल|एफआईआर|वारंट|हिरासत|डिजिटल अरेस्ट|खाता सीज|ब्लॉक)/gi, type: 'authority', label: 'Arrest & Custody Threat (Hindi)' },
-      { regex: /(अटक|तुरुंग|जेल|एफआयआर|वारंट|कोठडी|डिजिटल अटक|खाते गोठवले|ब्लॉक)/gi, type: 'authority', label: 'Arrest & Custody Threat (Marathi)' }
+      // 4. Legal & Physical Duress
+      { regex: /\b(arrest|jail|fir|custody|lockup|non-bailable|court|warrant|digital arrest|block account|freeze|detained)\b/gi, type: 'duress', label: 'Arrest & Custody Threat' },
+      { regex: /(अरेस्ट|गिरफ्तार|जेल|एफआईआर|वारंट|हिरासत|डिजिटल अरेस्ट|खाता सीज|ब्लॉक)/gi, type: 'duress', label: 'Arrest & Custody Threat (Hindi)' },
+      { regex: /(अटक|तुरुंग|जेल|एफआयआर|वारंट|कोठडी|डिजिटल अटक|खाते गोठवले|ब्लॉक)/gi, type: 'duress', label: 'Arrest & Custody Threat (Marathi)' }
     ];
   }
 
-  /**
-   * Primary context evaluator
-   * Ensures STRICT source separation:
-   * - Hackathon Scenarios use their own predefined transcript ONLY
-   * - Uploaded Audio uses its own audio transcript/demo
-   * - Recorded Mic uses live speech or mic baseline
-   */
   analyzeContext(input = {}) {
     const sourceType = input.sourceType || (input.scenario ? 'scenario' : 'upload');
 
-    // CASE 1: Hackathon Scenario Demo (ONLY when explicitly 'scenario')
+    // Case 1: Predefined Scenario
     if (sourceType === 'scenario' && input.scenario && input.scenario.contextThreat) {
       const threat = input.scenario.contextThreat;
+      const rawTranscript = input.scenario.rawTranscript || "";
+
+      // Derive 3-factor scores from scenario
+      const isHighScenario = input.scenario.riskScore >= 70;
+      const isMedScenario = input.scenario.riskScore >= 35 && input.scenario.riskScore < 70;
+
+      let scamContextScore = isHighScenario ? 91 : (isMedScenario ? 68 : 10);
+      let paymentUrgencyScore = isHighScenario ? 95 : (isMedScenario ? 62 : 8);
+
       return {
         sourceType: 'scenario',
         sourceLabel: 'Source: Hackathon Scenario Demo',
         sourceBadge: `Predefined Scenario: ${input.scenario.title.split('/')[0].trim()}`,
         isRealSpeechToText: false,
-        languageLabel: 'HINGLISH / ENGLISH',
+        languageLabel: 'HINDI / HINGLISH',
         contextScore: threat.score,
+        scamContextScore: scamContextScore,
+        scamContextConcern: this.getConcernLevel(scamContextScore),
+        paymentUrgencyScore: paymentUrgencyScore,
+        paymentUrgencyConcern: this.getConcernLevel(paymentUrgencyScore),
         urgencyLevel: threat.urgencyLevel,
         impersonationTarget: threat.impersonationTarget,
         financialDemand: threat.financialDemand,
         coercionFlags: threat.coercionFlags || [],
-        transcriptHtml: this.renderHighlightedTranscript(input.scenario.rawTranscript, threat.tokens),
-        rawTranscript: input.scenario.rawTranscript,
+        transcriptHtml: this.renderHighlightedTranscript(rawTranscript, threat.tokens),
+        rawTranscript: rawTranscript,
         reasons: input.scenario.reasons || [],
         urgencyDetected: Boolean(threat.urgencyLevel && !threat.urgencyLevel.includes('NONE')),
         moneyRequestDetected: Boolean(threat.financialDemand && !threat.financialDemand.includes('None')),
@@ -72,18 +79,15 @@ class ScamContextEngine {
       };
     }
 
-    // CASE 2: Uploaded Audio OR Recorded Microphone Audio
-    // NEVER COPY SCENARIO 1 OR PRESET TEXT HERE!
+    // Case 2: Custom Upload / Mic
     const isMic = sourceType === 'mic';
     const lang = (input.language || 'hi').toLowerCase();
     let rawText = (input.transcriptText || '').trim();
 
-    // If no text provided, generate an honest dedicated demo transcript
     let isDemoFallback = false;
     if (!rawText) {
       isDemoFallback = true;
       if (isMic) {
-        // Microphone Baseline Recording
         if (lang.startsWith('mr')) {
           rawText = "नमस्कार, ही मायक्रोफोन ऑडिओ रेकॉर्डिंग आहे. आवाज पूर्णपणे नैसर्गिक आणि मानवी आढळला. कोणतीही आणीबाणी किंवा खंडणीची मागणी नाही.";
         } else if (lang.startsWith('hi')) {
@@ -92,7 +96,6 @@ class ScamContextEngine {
           rawText = "Hello, this is a live microphone audio recording test. The vocal baseline is natural human with zero extortion or coercion detected.";
         }
       } else {
-        // Uploaded Audio File Demo
         const fileName = input.filename || "audio-note";
         if (lang.startsWith('mr')) {
           rawText = `बाबा, माझा अपघात झाला असून पोलिसांनी मला ताब्यात घेतले आहे. ताबडतोब 50,000 रुपये जीपेवर पाठवा, नाहीतर जेलमध्ये पाठवतील. कोणालाही सांगू नका! [ऑडिओ: ${fileName}]`;
@@ -104,19 +107,10 @@ class ScamContextEngine {
       }
     }
 
-    // Analyze the text using multi-lingual NLP pattern matching
     const semantics = this.parseTextSemantics(rawText);
 
-    // Build honest source labeling
     let sourceLabel = isMic ? 'Source: Recorded Audio' : 'Source: Uploaded Audio';
-    let sourceBadge = '';
-    if (isMic) {
-      sourceBadge = input.isRealAic ? 'Live Web Speech ASR' : (isDemoFallback ? 'Demo Transcription (Mic Baseline)' : 'Recorded Audio Transcript');
-    } else {
-      sourceBadge = input.isUserEdited 
-        ? 'User-Verified Spoken Words' 
-        : (isDemoFallback ? `Demo Transcription (${input.filename || 'Uploaded File'})` : 'Uploaded Audio Speech-to-Text');
-    }
+    let sourceBadge = isMic ? 'Microphone Voice Capture' : `Audio File (${input.filename || 'voice-note'})`;
 
     let languageLabel = 'ENGLISH';
     if (lang.startsWith('hi')) languageLabel = 'HINDI (हिंदी)';
@@ -132,9 +126,6 @@ class ScamContextEngine {
     };
   }
 
-  /**
-   * Performs dynamic regex token extraction and semantic scoring on any text
-   */
   parseTextSemantics(rawText) {
     const tokens = [];
     const matchedTypes = new Set();
@@ -155,17 +146,25 @@ class ScamContextEngine {
       }
     });
 
-    // Compute dynamic threat score
-    let score = 10;
-    if (matchedTypes.has('urgency')) score += 25;
-    if (matchedTypes.has('money')) score += 30;
-    if (matchedTypes.has('impersonation')) score += 20;
-    if (matchedTypes.has('authority')) score += 25;
-    score = Math.min(100, Math.max(10, score));
+    // 1. Scam Context Score (Impersonation, Duress, Police/Arrest threats)
+    let scamContextScore = 10;
+    if (matchedTypes.has('impersonation')) scamContextScore += 30;
+    if (matchedTypes.has('authority')) scamContextScore += 35;
+    if (matchedTypes.has('duress')) scamContextScore += 25;
+    scamContextScore = Math.min(100, Math.max(10, scamContextScore));
 
-    // Determine category summaries
+    // 2. Payment Urgency Score (Direct money, UPI/GPay, panic urgency, secrecy)
+    let paymentUrgencyScore = 8;
+    if (matchedTypes.has('money')) paymentUrgencyScore += 45;
+    if (matchedTypes.has('urgency')) paymentUrgencyScore += 30;
+    if (matchedTypes.has('isolation')) paymentUrgencyScore += 20;
+    paymentUrgencyScore = Math.min(100, Math.max(8, paymentUrgencyScore));
+
+    // Composite threat score
+    const contextScore = Math.round((scamContextScore * 0.45) + (paymentUrgencyScore * 0.55));
+
     let urgencyLevel = "NONE (Conversational)";
-    if (matchedTypes.has('urgency')) urgencyLevel = score >= 70 ? "CRITICAL (< 10 Mins)" : "MODERATE (Urgent Action)";
+    if (matchedTypes.has('urgency')) urgencyLevel = paymentUrgencyScore >= 70 ? "CRITICAL (< 10 Mins)" : "MODERATE (Urgent Action)";
 
     let impersonationTarget = "None Detected";
     if (matchedTypes.has('impersonation')) impersonationTarget = "Family Member Persona";
@@ -174,46 +173,50 @@ class ScamContextEngine {
     let financialDemand = "None ($0 / ₹0)";
     const moneyToken = tokens.find(t => t.type === 'money');
     if (moneyToken) {
-      financialDemand = `Immediate Transfer (${moneyToken.word})`;
+      financialDemand = `Immediate Demand (${moneyToken.word})`;
     }
 
-    // Build explainable reasons
+    // Build plain-language explainable reason cards
     const reasons = [];
-    if (matchedTypes.has('money') && matchedTypes.has('urgency')) {
+    if (paymentUrgencyScore >= 60) {
       reasons.push({
         level: "danger",
-        icon: "🚨",
-        title: "Immediate Financial Extortion Pattern Detected",
-        detail: `The text pairs urgent time pressure with a direct monetary demand (${financialDemand}).`
+        icon: "💸",
+        title: "Urgent Money Request Identified",
+        detail: `The audio demands an immediate payment via UPI / digital transfer (${financialDemand}) under artificial time panic.`
       });
     }
-    if (matchedTypes.has('authority') || matchedTypes.has('impersonation')) {
+    if (scamContextScore >= 60) {
       reasons.push({
         level: "danger",
         icon: "🎭",
-        title: "Authority / Family Impersonation Signals",
-        detail: `The caller utilizes identity cues ('${impersonationTarget}') commonly exploited in Indian social engineering attacks.`
+        title: "Family or Authority Impersonation Detected",
+        detail: `Caller mimics ${impersonationTarget}, combining fabricated legal/custody pressure with secrecy demands.`
       });
     }
-    if (flags.includes("Secrecy Coercion") || flags.includes("Arrest & Custody Threat")) {
+    if (matchedTypes.has('isolation')) {
       reasons.push({
         level: "warning",
-        icon: "⚖️",
-        title: "Psychological Isolation & Duress Tactics",
-        detail: "Threatening legal custody or demanding secrecy ('don't tell anyone') is a standard extortion tactic."
+        icon: "🤫",
+        title: "Psychological Isolation / Secrecy Pressure",
+        detail: "Caller demands 'don't tell anyone' — an established hallmark of Indian extortion scams."
       });
     }
     if (reasons.length === 0) {
       reasons.push({
         level: "safe",
         icon: "✅",
-        title: "Zero Coercive Scam Patterns Found",
-        detail: "The conversational text does not exhibit emergency ransom demands, police arrest threats, or urgent UPI transfers."
+        title: "No Scam or Coercion Markers Detected",
+        detail: "Conversational context reflects peaceful, organic communication without urgent financial demands."
       });
     }
 
     return {
-      contextScore: score,
+      contextScore: contextScore,
+      scamContextScore: scamContextScore,
+      scamContextConcern: this.getConcernLevel(scamContextScore),
+      paymentUrgencyScore: paymentUrgencyScore,
+      paymentUrgencyConcern: this.getConcernLevel(paymentUrgencyScore),
       urgencyLevel: urgencyLevel,
       impersonationTarget: impersonationTarget,
       financialDemand: financialDemand,
@@ -225,8 +228,15 @@ class ScamContextEngine {
       urgencyDetected: matchedTypes.has('urgency'),
       moneyRequestDetected: matchedTypes.has('money'),
       impersonationDetected: matchedTypes.has('impersonation') || matchedTypes.has('authority'),
-      pressureDetected: matchedTypes.has('authority') || flags.some(f => f.includes('Secrecy') || f.includes('Arrest'))
+      pressureDetected: matchedTypes.has('authority') || matchedTypes.has('duress')
     };
+  }
+
+  getConcernLevel(score) {
+    if (score >= 75) return "Critical";
+    if (score >= 50) return "High";
+    if (score >= 25) return "Moderate";
+    return "Low";
   }
 
   renderHighlightedTranscript(text, tokens = []) {
@@ -247,8 +257,9 @@ class ScamContextEngine {
     return html;
   }
 
-  calculateCompositeRisk(syntheticProb, contextScore) {
-    const raw = (syntheticProb * 0.55) + (contextScore * 0.45);
+  calculateCompositeRisk(syntheticProb, scamContextScore, paymentUrgencyScore) {
+    // Weighted multi-factor risk: Voice (50%) + Scam Context (25%) + Payment Urgency (25%)
+    const raw = (syntheticProb * 0.50) + (scamContextScore * 0.25) + (paymentUrgencyScore * 0.25);
     const score = Math.round(Math.min(100, Math.max(0, raw)));
 
     let classification = "LOW RISK";

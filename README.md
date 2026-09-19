@@ -20,13 +20,37 @@ The prototype is actively deployed and accessible publicly on any computer, tabl
 
 ---
 
-## 🚀 Local Development Quickstart
+## 🏗️ Architecture: Pure Client-Side Zero-Dependency
 
-### Option B: Open Directly in Browser
-Double-click `index.html` or run:
+VoiceShield India is engineered as a **100% self-contained, zero-dependency browser application**.
+- **No Python or Node.js server required** to run the complete end-to-end demo.
+- All forensic audio analysis, synthetic voice classification, NLP threat extraction, multilingual speech, and trusted-contact challenges run directly in client-side WebAssembly/Web Audio APIs.
+- The `backend/` folder is strictly an **optional future-scope reference architecture** for post-hackathon carrier-grade integration (e.g. telecom-level PyTorch Wav2Vec2 inference).
+
+---
+
+## 🚀 Quickstart: How to Run
+
+### Option A: Instant Zero-Setup (Double-click `index.html`) — Recommended for Stage Demo
+Simply open `index.html` directly in any web browser (Chrome, Edge, Brave, Firefox):
 ```powershell
 Start-Process "index.html"
 ```
+- ✅ **100% works out of the box** — zero commands, zero terminal setup.
+- ✅ All 4 pre-loaded Indian scam scenarios work instantly.
+- ✅ Custom audio file uploads (`.mp3`, `.wav`, `.m4a`) work instantly.
+- ✅ Forensic spectral analysis, risk gauge, NLP breakdown, multilingual TTS advisories, and family safe-word verification work seamlessly.
+
+### Option B: Local Web Server (Required only for Live Microphone Recording)
+Modern browsers enforce a **Secure Context** security rule: hardware microphone access (`navigator.mediaDevices.getUserMedia`) is restricted when opening files via `file:///`. If you wish to test live microphone recording with your own voice:
+```powershell
+# Using Python:
+python -m http.server 5173
+
+# Or using Node:
+node server.js
+```
+Then navigate to: **`http://localhost:5173`** (or `http://localhost:3000`).
 
 ---
 
@@ -74,7 +98,7 @@ voiceshield-india/
 │   ├── multilingual.js          # Warnings & Web Speech Synthesis (EN, HI, MR)
 │   ├── trusted-contact.js       # Out-of-band WhatsApp/SMS secondary channel simulation
 │   └── mock-scenarios.js        # Calibrated Indian scam test cases
-├── backend/                     # Modular backend ready for real PyTorch/Wav2Vec2 integration
+├── backend/                     # [FUTURE SCOPE / REFERENCE ONLY] Carrier-grade PyTorch Wav2Vec2 service
 │   ├── app.py                   # FastAPI REST API endpoints
 │   ├── model_engine.py          # PyTorch Wav2Vec2 + SpecNet deepfake pipeline
 │   ├── requirements.txt         # Python dependencies

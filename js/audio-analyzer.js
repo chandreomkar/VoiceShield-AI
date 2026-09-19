@@ -40,7 +40,32 @@ class AudioAnalyzer {
     const rect = this.canvas.getBoundingClientRect();
     this.canvas.width = rect.width * dpr;
     this.canvas.height = rect.height * dpr;
-    this.ctx.scale(dpr, dpr);
+    if (this.ctx) this.ctx.scale(dpr, dpr);
+  }
+
+  initVisualizer() {
+    this.initCanvas();
+    this.drawIdleWaveform();
+  }
+
+  drawSyntheticWaveform(type = 'clone') {
+    this.drawIdleWaveform();
+  }
+
+  stopOscillatorSimulation() {
+    this.stopAudio();
+  }
+
+  startOscillatorSimulation(isSynthetic = true) {
+    this.playScenarioAudio({ duration: this.duration || 8, riskScore: isSynthetic ? 90 : 15 });
+  }
+
+  startMicAnalysis(onTick, onError, lang) {
+    return this.startMicRecording(onTick, onError, lang);
+  }
+
+  stopMicAnalysis(onComplete) {
+    this.stopMicRecording(onComplete);
   }
 
   // Draw cyber-themed idle wave pattern

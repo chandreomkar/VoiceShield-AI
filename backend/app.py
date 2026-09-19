@@ -1,6 +1,7 @@
 """
-VoiceShield India - FastAPI Production Backend Architecture
-Exposes real-time deepfake voice detection and NLP threat classification endpoints.
+VoiceShield India - FastAPI Production Backend Architecture (FUTURE SCOPE / UNUSED IN DEMO)
+NOTE: The active hackathon prototype runs 100% client-side in the browser via index.html.
+This backend is an optional reference architecture for post-hackathon carrier deployment.
 """
 
 from fastapi import FastAPI, File, UploadFile, HTTPException, Form
