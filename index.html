@@ -147,6 +147,16 @@
             </label>
           </div>
           <div id="selected-file-info" class="file-info hidden"></div>
+
+          <!-- Transcript Editor for Uploaded File -->
+          <div class="transcript-editor-card hidden" id="upload-transcript-card">
+            <div class="transcript-editor-header">
+              <span class="transcript-editor-title">📝 Spoken Audio Transcript:</span>
+              <span class="transcript-editor-tag" id="upload-transcript-tag">Auto-Generated</span>
+            </div>
+            <textarea id="upload-transcript-input" class="transcript-textarea" rows="2" placeholder="Spoken words in this audio... (Auto-populated or type/edit here)"></textarea>
+            <div class="transcript-hint">NLP threat analysis evaluates this text for urgency, impersonation, and payment demands.</div>
+          </div>
         </div>
 
         <!-- Tab 3: Microphone Live Recording -->
@@ -177,6 +187,16 @@
             </button>
             <div class="mic-inline-error hidden" id="mic-inline-error">
               ⚠️ Microphone access unavailable or permission denied. Please allow microphone permissions or select a preset scenario.
+            </div>
+
+            <!-- Live STT Transcript for Recorded Audio -->
+            <div class="transcript-editor-card" id="mic-transcript-card" style="margin-top: 15px; width: 100%;">
+              <div class="transcript-editor-header">
+                <span class="transcript-editor-title">🎙️ Recognized Speech Transcript:</span>
+                <span class="transcript-editor-tag" id="mic-transcript-tag">Ready</span>
+              </div>
+              <textarea id="mic-transcript-input" class="transcript-textarea" rows="2" placeholder="Your spoken voice will be transcribed here live (or you can edit/type what you said)..."></textarea>
+              <div class="transcript-hint">Transcribed via browser Speech-to-Text. You can edit or confirm what was said before scanning.</div>
             </div>
           </div>
         </div>

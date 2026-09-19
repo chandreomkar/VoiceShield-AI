@@ -177,6 +177,9 @@ class AudioAnalyzer {
   playAudioBlob(blob, onTimeUpdate, onEnded) {
     this.stopAudio();
     const ctx = this.getAudioContext();
+    if (ctx && ctx.state === 'suspended') {
+      ctx.resume().catch(() => {});
+    }
     this.analyser = ctx.createAnalyser();
 
     const audioEl = new Audio();
@@ -184,6 +187,7 @@ class AudioAnalyzer {
     audioEl.src = blobUrl;
     audioEl.crossOrigin = 'anonymous';
     this.currentAudioElement = audioEl;
+    this.currentBlobUrl = blobUrl;
 
     // Connect audio element to Web Audio analyser for real-time visualization
     try {
@@ -191,7 +195,7 @@ class AudioAnalyzer {
       source.connect(this.analyser);
       this.analyser.connect(ctx.destination);
     } catch (e) {
-      // If already connected or cross-origin restriction, connect analyser to dummy visualizer
+      // If already connected or cross-origin restriction, direct playback still functions
       console.log('MediaElementSource note:', e.message);
     }
 
@@ -225,7 +229,6 @@ class AudioAnalyzer {
         try {
           audioEl.pause();
           audioEl.currentTime = 0;
-          URL.revokeObjectURL(blobUrl);
         } catch (e) {}
       }
     };
@@ -323,31 +326,59 @@ class AudioAnalyzer {
     if (this.currentAudioElement) {
       try {
         this.currentAudioElement.pause();
-        this.currentAudioElement = null;
+        this.currentAudioElement.currentTime = 0;
       } catch (e) {}
+      this.currentAudioElement = null;
+    }
+    if (this.currentBlobUrl) {
+      try {
+        URL.revokeObjectURL(this.currentBlobUrl);
+      } catch (e) {}
+      this.currentBlobUrl = null;
     }
     if (this.currentSource) {
-      this.currentSource.stop();
+      try {
+        this.currentSource.stop();
+      } catch (e) {}
       this.currentSource = null;
     }
     this.stopVisualizer();
   }
 
   // Handle Microphone Recording (Requested ONLY upon user click)
-  async startMicRecording(onTick, onError, lang = 'hi-IN') {
+  async startMicRecording(onTick, onError, lang = 'hi-IN', onSpeech = null) {
     try {
       this.currentMicLang = lang || 'hi-IN';
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       this.mediaStream = stream;
       const ctx = this.getAudioContext();
+      if (ctx && ctx.state === 'suspended') {
+        ctx.resume().catch(() => {});
+      }
       const micSource = ctx.createMediaStreamSource(stream);
       this.analyser = ctx.createAnalyser();
       micSource.connect(this.analyser);
 
       this.audioChunks = [];
-      this.mediaRecorder = new MediaRecorder(stream);
+      const mimeOptions = [
+        'audio/webm;codecs=opus',
+        'audio/webm',
+        'audio/ogg;codecs=opus',
+        'audio/mp4'
+      ];
+      let selectedMime = '';
+      for (const m of mimeOptions) {
+        if (typeof MediaRecorder.isTypeSupported === 'function' && MediaRecorder.isTypeSupported(m)) {
+          selectedMime = m;
+          break;
+        }
+      }
+
+      this.mediaRecorder = selectedMime ? new MediaRecorder(stream, { mimeType: selectedMime }) : new MediaRecorder(stream);
+      this.recordedMimeType = selectedMime || 'audio/webm';
+
       this.mediaRecorder.ondataavailable = (e) => {
-        if (e.data.size > 0) this.audioChunks.push(e.data);
+        if (e.data && e.data.size > 0) this.audioChunks.push(e.data);
       };
 
       this.mediaRecorder.start(250);
@@ -369,6 +400,7 @@ class AudioAnalyzer {
               fullText += event.results[i][0].transcript + ' ';
             }
             this.liveSpeechText = fullText.trim();
+            if (onSpeech) onSpeech(this.liveSpeechText);
           };
           this.speechRecognizer.start();
         } catch (e) {
@@ -401,7 +433,8 @@ class AudioAnalyzer {
     }
     if (this.mediaRecorder && this.mediaRecorder.state !== 'inactive') {
       this.mediaRecorder.onstop = () => {
-        const audioBlob = new Blob(this.audioChunks, { type: 'audio/wav' });
+        const mime = this.recordedMimeType || 'audio/webm';
+        const audioBlob = new Blob(this.audioChunks, { type: mime });
         if (onComplete) onComplete(audioBlob, this.liveSpeechText, this.currentMicLang || 'hi-IN');
       };
       this.mediaRecorder.stop();

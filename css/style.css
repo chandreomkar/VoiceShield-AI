@@ -1109,6 +1109,74 @@ body.theme-cyber {
   border-radius: 3px;
   cursor: pointer;
 }
+ 
+/* File Info and Transcript Input Styles */
+.file-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: rgba(0, 240, 255, 0.08);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  color: var(--text-bright);
+}
+.file-info.hidden { display: none; }
+.file-ready-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--emerald-safe);
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  padding: 2px 8px;
+  border-radius: 3px;
+  letter-spacing: 0.8px;
+}
+
+.transcript-editor-card {
+  margin-top: 12px;
+  background: rgba(9, 14, 26, 0.85);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  animation: fadeIn 0.25s ease-out;
+}
+.transcript-editor-card.hidden { display: none; }
+.transcript-editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2px;
+}
+.transcript-editor-title {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  color: var(--cyan-primary);
+  text-transform: uppercase;
+}
+.transcript-editor-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--cyan-primary);
+  background: rgba(0, 240, 255, 0.12);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+.transcript-hint {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
 
 .threat-token {
   padding: 1px 5px;

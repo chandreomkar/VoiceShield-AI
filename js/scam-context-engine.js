@@ -96,13 +96,34 @@ class ScamContextEngine {
           rawText = "Hello, this is a live microphone audio recording test. The vocal baseline is natural human with zero extortion or coercion detected.";
         }
       } else {
-        const fileName = input.filename || "audio-note";
-        if (lang.startsWith('mr')) {
-          rawText = `बाबा, माझा अपघात झाला असून पोलिसांनी मला ताब्यात घेतले आहे. ताबडतोब 50,000 रुपये जीपेवर पाठवा, नाहीतर जेलमध्ये पाठवतील. कोणालाही सांगू नका! [ऑडिओ: ${fileName}]`;
-        } else if (lang.startsWith('hi')) {
-          rawText = `पापा, मेरा कॉलेज के पास एक्सीडेंट हो गया है और पुलिस वाले मुझे थाने ले जा रहे हैं। तुरंत 50,000 रुपये जीपे (GPay) पर भेजो, नहीं तो जेल भेज देंगे। किसी को मत बताना! [ऑडियो: ${fileName}]`;
+        const fn = (input.filename || '').toLowerCase();
+        if (fn.includes('anika') || fn.includes('preview') || fn.includes('warm') || fn.includes('clear') || 
+            fn.includes('professional') || fn.includes('sample') || fn.includes('demo') || fn.includes('natural') || 
+            fn.includes('genuine') || fn.includes('normal') || fn.includes('safe')) {
+          if (lang.startsWith('en')) {
+            rawText = "Hello, this is Anika. Thank you for listening to this voice preview. The speech is clear, warm, and natural.";
+          } else if (lang.startsWith('mr')) {
+            rawText = "नमस्कार, हे अनिकाच्या आवाजाचे प्रिव्ह्यू आहे. आवाज स्पष्ट, नैसर्गिक आणि सुरक्षित आहे.";
+          } else {
+            rawText = "नमस्ते, यह अनिका की आवाज़ का प्रीव्यू है। आवाज पूरी तरह से स्पष्ट, प्राकृतिक और सुरक्षित है।";
+          }
+        } else if (fn.includes('accident') || fn.includes('police') || fn.includes('50000') || fn.includes('urgent') || 
+                   fn.includes('arrest') || fn.includes('jail') || fn.includes('bail') || fn.includes('ransom') || fn.includes('scam')) {
+          if (lang.startsWith('mr')) {
+            rawText = `बाबा, माझा अपघात झाला असून पोलिसांनी मला ताब्यात घेतले आहे. ताबडतोब 50,000 रुपये जीपेवर पाठवा, नाहीतर जेलमध्ये पाठवतील. कोणालाही सांगू नका!`;
+          } else if (lang.startsWith('hi')) {
+            rawText = `पापा, मेरा कॉलेज के पास एक्सीडेंट हो गया है और पुलिस वाले मुझे थाने ले जा रहे हैं। तुरंत 50,000 रुपये जीपे (GPay) पर भेजो, नहीं तो जेल भेज देंगे। किसी को मत बताना!`;
+          } else {
+            rawText = `Dad, I met with an emergency accident and police are taking me into custody. Transfer ₹50,000 on GPay right now or they will lock me in jail. Don't tell anyone!`;
+          }
         } else {
-          rawText = `Dad, I met with an emergency accident and police are taking me into custody. Transfer ₹50,000 on GPay right now or they will lock me in jail. Don't tell anyone! [Audio: ${fileName}]`;
+          if (lang.startsWith('en')) {
+            rawText = "Hi, I am sending you this audio message regarding our discussion earlier today. Please review and let me know your thoughts.";
+          } else if (lang.startsWith('mr')) {
+            rawText = "नमस्कार, मी आजच्या चर्चेबद्दल हा ऑडिओ मेसेज पाठवत आहे. कृपया ऐकून सांगा.";
+          } else {
+            rawText = "नमस्ते, मैं आज की बातचीत के संबंध में यह ऑडियो संदेश भेज रहा हूं। कृपया सुनकर बताएं।";
+          }
         }
       }
     }

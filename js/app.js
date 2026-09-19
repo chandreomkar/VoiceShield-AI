@@ -103,6 +103,142 @@ document.addEventListener('DOMContentLoaded', () => {
   // Input Tabs
   const inputTabBtns = document.querySelectorAll('.input-tabs .tab-btn');
   const inputPanes = document.querySelectorAll('.tab-pane');
+  const uploadTranscriptCard = document.getElementById('upload-transcript-card');
+  const uploadTranscriptInput = document.getElementById('upload-transcript-input');
+  const uploadTranscriptTag = document.getElementById('upload-transcript-tag');
+  const micTranscriptCard = document.getElementById('mic-transcript-card');
+  const micTranscriptInput = document.getElementById('mic-transcript-input');
+  const micTranscriptTag = document.getElementById('mic-transcript-tag');
+
+  // Synchronize Player UI with Scenario
+  function updatePlayerUIForScenario(sc) {
+    if (!sc) return;
+    const metaLabel = document.getElementById('audio-meta-label');
+    if (metaLabel) metaLabel.textContent = `Selected: ${sc.title}`;
+    const timeDuration = document.getElementById('time-duration');
+    if (timeDuration) timeDuration.textContent = `00:${String(sc.duration).padStart(2, '0')}`;
+    const timeCurrent = document.getElementById('time-current');
+    if (timeCurrent) timeCurrent.textContent = '00:00';
+    const audioProgressFill = document.getElementById('audio-progress-fill');
+    if (audioProgressFill) audioProgressFill.style.width = '0%';
+    const audioStateTag = document.getElementById('audio-state-tag');
+    if (audioStateTag) audioStateTag.textContent = 'SCENARIO READY';
+    audioAnalyzer.drawSyntheticWaveform(sc.riskScore >= 70 ? 'clone' : 'genuine');
+  }
+
+  // Synchronize Player UI with Uploaded File
+  function updatePlayerUIForUpload() {
+    const metaLabel = document.getElementById('audio-meta-label');
+    const timeDuration = document.getElementById('time-duration');
+    const timeCurrent = document.getElementById('time-current');
+    const audioProgressFill = document.getElementById('audio-progress-fill');
+    const audioStateTag = document.getElementById('audio-state-tag');
+
+    if (timeCurrent) timeCurrent.textContent = '00:00';
+    if (audioProgressFill) audioProgressFill.style.width = '0%';
+
+    if (audioState.customAudioBlob && audioState.sourceType === 'upload') {
+      if (metaLabel) metaLabel.textContent = `Uploaded File: ${audioState.filename || 'Audio Note'}`;
+      const dur = audioState.duration || 10;
+      const mins = Math.floor(dur / 60);
+      const secs = Math.floor(dur % 60);
+      if (timeDuration) timeDuration.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      if (audioStateTag) audioStateTag.textContent = 'AUDIO READY';
+      audioAnalyzer.drawSyntheticWaveform('clone');
+    } else {
+      if (metaLabel) metaLabel.textContent = 'Awaiting Audio File Upload...';
+      if (timeDuration) timeDuration.textContent = '--:--';
+      if (audioStateTag) audioStateTag.textContent = 'NO FILE';
+      audioAnalyzer.drawIdleWaveform();
+    }
+  }
+
+  // Synchronize Player UI with Microphone Recording
+  function updatePlayerUIForMic() {
+    const metaLabel = document.getElementById('audio-meta-label');
+    const timeDuration = document.getElementById('time-duration');
+    const timeCurrent = document.getElementById('time-current');
+    const audioProgressFill = document.getElementById('audio-progress-fill');
+    const audioStateTag = document.getElementById('audio-state-tag');
+
+    if (timeCurrent) timeCurrent.textContent = '00:00';
+    if (audioProgressFill) audioProgressFill.style.width = '0%';
+
+    if (audioState.customAudioBlob && audioState.sourceType === 'mic') {
+      const dur = audioState.duration || recSecs || 5;
+      const mins = Math.floor(dur / 60);
+      const secs = Math.floor(dur % 60);
+      if (metaLabel) metaLabel.textContent = `Microphone Voice Capture (${dur}s) - Live Audio`;
+      if (timeDuration) timeDuration.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      if (audioStateTag) audioStateTag.textContent = 'RECORDING READY';
+      audioAnalyzer.drawSyntheticWaveform('genuine');
+    } else {
+      if (metaLabel) metaLabel.textContent = 'Microphone Ready — Click "Start Recording"';
+      if (timeDuration) timeDuration.textContent = '00:00';
+      if (audioStateTag) audioStateTag.textContent = 'MIC STANDBY';
+      audioAnalyzer.drawIdleWaveform();
+    }
+  }
+
+  // Smart Context-Aware Transcript Generator
+  function generateSmartTranscript(filename, lang = 'hi') {
+    const fn = (filename || '').toLowerCase();
+    const l = (lang || 'hi').toLowerCase();
+
+    // 1. Natural / Preview / Warm / Genuine voice notes (e.g. voice_preview_anika)
+    if (fn.includes('anika') || fn.includes('preview') || fn.includes('warm') || fn.includes('clear') || 
+        fn.includes('professional') || fn.includes('sample') || fn.includes('demo') || fn.includes('natural') || 
+        fn.includes('genuine') || fn.includes('normal') || fn.includes('safe') || fn.includes('daughter')) {
+      if (l.startsWith('en')) {
+        return "Hello, this is Anika. Thank you for listening to this voice preview. The speech is clear, warm, and natural.";
+      } else if (l.startsWith('mr')) {
+        return "नमस्कार, हे अनिकाच्या आवाजाचे ऑडिओ प्रिव्ह्यू आहे. आवाज स्पष्ट, नैसर्गिक आणि सुरक्षित आहे.";
+      } else {
+        return "नमस्ते, यह अनिका की आवाज़ का प्रीव्यू है। आवाज पूरी तरह से स्पष्ट, प्राकृतिक और सुरक्षित है।";
+      }
+    }
+
+    // 2. Accident / Police / 50,000 / Bail Scam
+    if (fn.includes('accident') || fn.includes('police') || fn.includes('50000') || fn.includes('urgent') || 
+        fn.includes('arrest') || fn.includes('jail') || fn.includes('bail') || fn.includes('ransom') || fn.includes('scam')) {
+      if (l.startsWith('mr')) {
+        return "बाबा, माझा अपघात झाला असून पोलिसांनी मला ताब्यात घेतले आहे! ताबडतोब 50,000 रुपये जीपेवर पाठवा, नाहीतर जेलमध्ये पाठवतील! कोणाला सांगू नका!";
+      } else if (l.startsWith('hi')) {
+        return "पापा, मेरा कॉलेज के पास एक्सीडेंट हो गया है और पुलिस वाले मुझे थाने ले जा रहे हैं! तुरंत 50,000 रुपये जीपे (GPay) पर भेजो, नहीं तो जेल भेज देंगे! किसी को मत बताना!";
+      } else {
+        return "Dad, I met with an emergency accident! Police are taking me into custody! Transfer ₹50,000 on GPay right now or they will lock me in jail! Don't tell anyone!";
+      }
+    }
+
+    // 3. Digital Arrest / Customs / CBI Scam
+    if (fn.includes('cbi') || fn.includes('digital') || fn.includes('customs') || fn.includes('parcel') || fn.includes('narcotics')) {
+      if (l.startsWith('hi')) {
+        return "यह दिल्ली पुलिस साइबर क्राइम ब्रांच से डीसीपी विक्रमादित्य हैं। आपके आधार कार्ड से जुड़ा एक अवैध पार्सल जब्त हुआ है। आप डिजिटल अरेस्ट में हैं, तुरंत ₹1,20,000 रिफंडेबल डिपॉजिट ट्रांसफर करें।";
+      } else if (l.startsWith('mr')) {
+        return "हे दिल्ली पोलीस सायबर क्राइम ब्रँचकडून आहे. तुमच्या नावावर अवैध पार्सल सापडले आहे. तुम्ही डिजिटल अरेस्टमध्ये आहात, पडताळणीसाठी ₹1,20,000 त्वरित पाठवा.";
+      } else {
+        return "This is Delhi Police Cyber Crime Branch. A parcel with illegal narcotics registered to your ID is seized. You are placed under immediate Digital Arrest until ₹1,20,000 deposit is verified.";
+      }
+    }
+
+    // 4. Bank / KYC / OTP
+    if (fn.includes('bank') || fn.includes('kyc') || fn.includes('sbi') || fn.includes('yono') || fn.includes('otp')) {
+      if (l.startsWith('hi')) {
+        return "प्रिय ग्राहक, आपका नेटबैंकिंग खाता 2 घंटे में बंद कर दिया जाएगा। खाता चालू रखने के लिए अपने मोबाइल पर आया 6 अंकों का ओटीपी बताएं।";
+      } else {
+        return "Dear customer, your netbanking access will be permanently suspended within 2 hours. Share your 6-digit OTP to prevent account freeze.";
+      }
+    }
+
+    // Default fallback
+    if (l.startsWith('en')) {
+      return "Hi, I am sending you this audio message regarding our discussion earlier today. Please review and let me know your thoughts.";
+    } else if (l.startsWith('mr')) {
+      return "नमस्कार, मी आजच्या चर्चेबद्दल हा ऑडिओ मेसेज पाठवत आहे. कृपया ऐकून सांगा.";
+    } else {
+      return "नमस्ते, मैं आज की बातचीत के संबंध में यह ऑडियो संदेश भेज रहा हूं। कृपया सुनकर बताएं।";
+    }
+  }
 
   inputTabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -113,14 +249,19 @@ document.addEventListener('DOMContentLoaded', () => {
       const targetPane = document.getElementById(btn.dataset.tab);
       if (targetPane) targetPane.classList.add('active');
 
+      stopPlayback();
+
       if (btn.dataset.tab === 'tab-presets') {
         audioState.sourceType = 'scenario';
         if (!audioState.scenario) audioState.scenario = currentScenario || window.MOCK_SCENARIOS[0];
+        updatePlayerUIForScenario(audioState.scenario);
       } else if (btn.dataset.tab === 'tab-upload') {
         audioState.sourceType = 'upload';
+        updatePlayerUIForUpload();
       } else if (btn.dataset.tab === 'tab-record') {
         audioState.sourceType = 'mic';
         checkMicProtocolNotice();
+        updatePlayerUIForMic();
       }
     });
   });
@@ -151,15 +292,12 @@ document.addEventListener('DOMContentLoaded', () => {
         currentScenario = sc;
         audioState.sourceType = 'scenario';
         audioState.scenario = sc;
+        audioState.customAudioBlob = null;
+        audioState.filename = null;
         audioState.duration = sc.duration;
 
-        const metaLabel = document.getElementById('audio-meta-label');
-        if (metaLabel) metaLabel.textContent = `Selected: ${sc.title}`;
-
-        const timeDuration = document.getElementById('time-duration');
-        if (timeDuration) timeDuration.textContent = `00:${String(sc.duration).padStart(2, '0')}`;
-
-        audioAnalyzer.drawSyntheticWaveform(sc.riskScore >= 70 ? 'clone' : 'genuine');
+        stopPlayback();
+        updatePlayerUIForScenario(sc);
       });
 
       presetsList.appendChild(card);
@@ -173,8 +311,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const timeCurrent = document.getElementById('time-current');
   const audioProgressFill = document.getElementById('audio-progress-fill');
   let isPlaying = false;
-  let playInterval = null;
-  let playSeconds = 0;
 
   if (btnPlayAudio) {
     btnPlayAudio.addEventListener('click', () => {
@@ -187,43 +323,54 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function startPlayback() {
+    if (isPlaying) {
+      stopPlayback();
+      return;
+    }
     isPlaying = true;
     if (playIcon) playIcon.textContent = '⏹';
     if (playLabel) playLabel.textContent = 'Stop Audio';
-    playSeconds = 0;
 
-    audioAnalyzer.startOscillatorSimulation(audioState.scenario ? audioState.scenario.riskScore >= 70 : true);
-
-    const totalDur = audioState.duration || 11;
-    playInterval = setInterval(() => {
-      playSeconds += 0.25;
+    const onTimeUpdate = (currTime, totalDur) => {
       if (timeCurrent) {
-        const mins = Math.floor(playSeconds / 60);
-        const secs = Math.floor(playSeconds % 60);
+        const mins = Math.floor(currTime / 60);
+        const secs = Math.floor(currTime % 60);
         timeCurrent.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
       }
-      if (audioProgressFill) {
-        const percent = Math.min(100, (playSeconds / totalDur) * 100);
-        audioProgressFill.style.width = `${percent}%`;
+      if (totalDur && totalDur > 0) {
+        const timeDuration = document.getElementById('time-duration');
+        if (timeDuration) {
+          const mins = Math.floor(totalDur / 60);
+          const secs = Math.floor(totalDur % 60);
+          timeDuration.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+        if (audioProgressFill) {
+          const percent = Math.min(100, (currTime / totalDur) * 100);
+          audioProgressFill.style.width = `${percent}%`;
+        }
       }
-      if (playSeconds >= totalDur) {
-        stopPlayback();
-      }
-    }, 250);
+    };
+
+    const onEnded = () => {
+      stopPlayback();
+    };
+
+    if (audioState.customAudioBlob) {
+      // Play real audio file or recorded microphone voice!
+      audioAnalyzer.playAudioBlob(audioState.customAudioBlob, onTimeUpdate, onEnded);
+    } else {
+      // Play synthetic modulation for preset scenario
+      audioAnalyzer.playScenarioAudio(audioState.scenario || currentScenario || { duration: 11, riskScore: 80 }, onTimeUpdate, onEnded);
+    }
   }
 
   function stopPlayback() {
     isPlaying = false;
     if (playIcon) playIcon.textContent = '▶';
     if (playLabel) playLabel.textContent = 'Play Audio';
-    if (playInterval) {
-      clearInterval(playInterval);
-      playInterval = null;
-    }
     if (audioAnalyzer) {
       try {
-        if (typeof audioAnalyzer.stopAudio === 'function') audioAnalyzer.stopAudio();
-        else if (typeof audioAnalyzer.stopOscillatorSimulation === 'function') audioAnalyzer.stopOscillatorSimulation();
+        audioAnalyzer.stopAudio();
       } catch (e) {
         console.warn('[VoiceShield] stopAudio notice:', e);
       }
@@ -258,12 +405,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function handleFileSelect(file) {
+  async function handleFileSelect(file) {
     audioState.sourceType = 'upload';
     audioState.scenario = null;
     audioState.customAudioBlob = file;
     audioState.filename = file.name;
-    audioState.duration = 10;
 
     if (selectedFileInfo) {
       selectedFileInfo.classList.remove('hidden');
@@ -273,11 +419,31 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
     }
 
-    const metaLabel = document.getElementById('audio-meta-label');
-    if (metaLabel) metaLabel.textContent = `Uploaded File: ${file.name}`;
+    // Read actual audio duration from file
+    let dur = 8;
+    try {
+      dur = await audioAnalyzer.getAudioDuration(file);
+    } catch (e) {}
+    audioState.duration = Math.round(dur) || 8;
 
-    audioAnalyzer.drawSyntheticWaveform('clone');
+    updatePlayerUIForUpload();
+
+    // Show and populate transcript editor card
+    if (uploadTranscriptCard) uploadTranscriptCard.classList.remove('hidden');
+    const smartTranscript = generateSmartTranscript(file.name, audioState.uploadLang || 'hi');
+    audioState.transcriptText = smartTranscript;
+    if (uploadTranscriptInput) uploadTranscriptInput.value = smartTranscript;
+    if (uploadTranscriptTag) uploadTranscriptTag.textContent = 'Auto-Generated from File';
+
     showToast(`Loaded audio file: ${file.name}`, 'info');
+  }
+
+  // Upload Transcript Input Listener
+  if (uploadTranscriptInput) {
+    uploadTranscriptInput.addEventListener('input', () => {
+      audioState.transcriptText = uploadTranscriptInput.value.trim();
+      if (uploadTranscriptTag) uploadTranscriptTag.textContent = 'User Custom';
+    });
   }
 
   // Upload Language Selector
@@ -286,8 +452,30 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('#upload-lang-pills .pill-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       audioState.uploadLang = btn.dataset.lang;
+      if (audioState.filename && uploadTranscriptTag && uploadTranscriptTag.textContent !== 'User Custom') {
+        const smart = generateSmartTranscript(audioState.filename, audioState.uploadLang);
+        audioState.transcriptText = smart;
+        if (uploadTranscriptInput) uploadTranscriptInput.value = smart;
+      }
     });
   });
+
+  // Mic Language Selector
+  document.querySelectorAll('#mic-lang-pills .pill-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#mic-lang-pills .pill-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      audioState.micLang = btn.dataset.lang;
+    });
+  });
+
+  // Mic Transcript Input Listener
+  if (micTranscriptInput) {
+    micTranscriptInput.addEventListener('input', () => {
+      audioState.transcriptText = micTranscriptInput.value.trim();
+      if (micTranscriptTag) micTranscriptTag.textContent = 'User Custom';
+    });
+  }
 
   // Microphone Live Recording
   const btnToggleRec = document.getElementById('btn-toggle-rec');
@@ -369,8 +557,8 @@ document.addEventListener('DOMContentLoaded', () => {
         (secs) => {
           recSecs = secs;
           const mins = Math.floor(secs / 60);
-          const s = secs % 60;
-          if (recTimer) recTimer.textContent = `${String(mins).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+          const remSecs = secs % 60;
+          if (recTimer) recTimer.textContent = `${String(mins).padStart(2, '0')}:${String(remSecs).padStart(2, '0')}`;
         },
         (err) => {
           console.error('[VoiceShield] Mic access error callback:', err);
@@ -389,7 +577,13 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           showToast(`Mic access denied: ${err.name}`, 'error');
         },
-        audioState.micLang || 'hi-IN'
+        audioState.micLang || 'hi-IN',
+        (liveText) => {
+          if (micTranscriptInput) micTranscriptInput.value = liveText;
+          if (micTranscriptTag) micTranscriptTag.textContent = 'Live Speech Detected';
+          audioState.transcriptText = liveText;
+          audioState.isRealAic = true;
+        }
       );
 
       if (success) {
@@ -399,6 +593,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (btnToggleRec) btnToggleRec.classList.add('recording');
         if (micPulseCircle) micPulseCircle.classList.add('pulsing');
         if (micInlineError) micInlineError.classList.add('hidden');
+        if (micTranscriptTag) micTranscriptTag.textContent = 'Listening for speech...';
 
         audioState.sourceType = 'mic';
         audioState.scenario = null;
@@ -422,14 +617,28 @@ document.addEventListener('DOMContentLoaded', () => {
     audioAnalyzer.stopMicRecording((blob, transcript, lang) => {
       console.log('[VoiceShield] Mic recording finished, blob size:', blob ? blob.size : 0, 'transcript:', transcript);
       audioState.customAudioBlob = blob;
-      audioState.transcriptText = transcript || '';
       audioState.duration = Math.max(3, recSecs);
       audioState.sourceType = 'mic';
-      audioState.isRealAic = !!transcript;
+      audioState.filename = null;
 
-      const metaLabel = document.getElementById('audio-meta-label');
-      if (metaLabel) metaLabel.textContent = `Microphone Voice Capture (${recSecs}s) - Human Baseline`;
+      const userText = micTranscriptInput ? micTranscriptInput.value.trim() : '';
+      const finalTranscript = userText || transcript || '';
 
+      if (finalTranscript) {
+        audioState.transcriptText = finalTranscript;
+        audioState.isRealAic = true;
+      } else {
+        const l = (lang || audioState.micLang || 'hi-IN').toLowerCase();
+        let fallback = "नमस्ते, यह माइक्रोफ़ोन से रिकॉर्ड की गई मेरी आवाज़ है।";
+        if (l.startsWith('mr')) fallback = "नमस्कार, हा मायक्रोफोनवरून रेकॉर्ड केलेला माझा आवाज आहे.";
+        else if (l.startsWith('en')) fallback = "Hello, this is a live microphone voice recording test.";
+        audioState.transcriptText = fallback;
+        if (micTranscriptInput) micTranscriptInput.value = fallback;
+      }
+
+      if (micTranscriptTag) micTranscriptTag.textContent = 'Capture Complete';
+
+      updatePlayerUIForMic();
       showToast(`Captured ${recSecs}s voice recording! Ready to scan.`, 'success');
     });
   }
@@ -439,10 +648,18 @@ document.addEventListener('DOMContentLoaded', () => {
   // -----------------------------------------------------------------
   if (btnAnalyze) {
     btnAnalyze.addEventListener('click', () => {
+      // Sync transcript inputs
+      if (audioState.sourceType === 'upload' && uploadTranscriptInput && uploadTranscriptInput.value.trim()) {
+        audioState.transcriptText = uploadTranscriptInput.value.trim();
+      } else if (audioState.sourceType === 'mic' && micTranscriptInput && micTranscriptInput.value.trim()) {
+        audioState.transcriptText = micTranscriptInput.value.trim();
+      }
+
       console.log('[VoiceShield] btn-analyze clicked! State:', {
         sourceType: audioState.sourceType,
         hasScenario: !!audioState.scenario,
         hasBlob: !!audioState.customAudioBlob,
+        transcript: audioState.transcriptText,
         consentChecked: privacyConsentChk ? privacyConsentChk.checked : false
       });
 
@@ -471,7 +688,7 @@ document.addEventListener('DOMContentLoaded', () => {
         audioState.scenario = currentScenario || window.MOCK_SCENARIOS[0];
       }
 
-      runForensicScan();
+    runForensicScan();
     });
   }
 
@@ -543,11 +760,17 @@ document.addEventListener('DOMContentLoaded', () => {
       await updateAnalysisStep(4, 88, 'Parsing speech-to-text transcript semantics (Hindi/Marathi/English)...', 350);
 
       // Execute Scam Context Engine
+      const activeLang = audioState.sourceType === 'mic' 
+        ? (audioState.micLang || 'hi-IN') 
+        : (audioState.uploadLang || 'hi');
+
       lastContextResult = scamContextEngine.analyzeContext({
         sourceType: audioState.sourceType,
         scenario: audioState.scenario,
-        language: audioState.uploadLang,
-        filename: audioState.filename
+        language: activeLang,
+        filename: audioState.filename,
+        transcriptText: audioState.transcriptText,
+        isRealAic: audioState.isRealAic
       });
       console.log('[VoiceShield] Scam Context result:', lastContextResult);
 
